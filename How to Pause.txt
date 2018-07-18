@@ -1,0 +1,4 @@
+https://answers.unity.com/questions/1230216/a-proper-way-to-pause-a-game.html
+
+
+게임의 Time Class와 메뉴의 Time Class를 분리해서 한쪽만 멈추게 하는게 좋음
