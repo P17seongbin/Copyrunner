@@ -43,7 +43,7 @@ public class HeadQuarter : MonoBehaviour {
     }
     public void Unit_Dead(int ID)
     {
-
+        Unit_Count[ID] = Unit_Count[ID] - 1;
     }
     public void Toggle_Is_Casting()
     {
