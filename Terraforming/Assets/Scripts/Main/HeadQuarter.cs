@@ -43,11 +43,11 @@ public class HeadQuarter : MonoBehaviour {
     }
     public void Unit_Dead(int ID)
     {
-
+        Unit_Count[ID] = Unit_Count[ID] - 1;
     }
     public void Toggle_Is_Casting()
     {
-
+        Is_Casting = !Is_Casting;
     }
     //이 함수는 아직 건드리지 마세요
     private void Object_Pooling()
