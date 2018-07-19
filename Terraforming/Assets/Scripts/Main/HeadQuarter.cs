@@ -22,11 +22,12 @@ public class HeadQuarter : MonoBehaviour {
     {
     }
     public void Hit(float damage)
-    { 
+    {
+        Health = Health - damage;
     }
     public float HQ_Health()
     {
-
+        return Health;
     }
     
     //이 함수는 건드리지 마세요
@@ -39,7 +40,6 @@ public class HeadQuarter : MonoBehaviour {
     }
     public int[] Unit_Count()
     {
-
     }
     public void Unit_Dead(int ID)
     {
@@ -47,7 +47,7 @@ public class HeadQuarter : MonoBehaviour {
     }
     public void Toggle_Is_Casting()
     {
-
+        Is_Casting = !Is_Casting;
     }
     //이 함수는 아직 건드리지 마세요
     private void Object_Pooling()
@@ -55,12 +55,21 @@ public class HeadQuarter : MonoBehaviour {
 
     }
     // Use this for initialization
-    void Start () {
-		
+    void Start ()
+    {
+        Is_Casting = true;	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        if(Resource > Max_Resource)
+        {
+            Resource = Max_Resource;
+        }
+		else if(Resource < Max_Resource)
+        {
+            Resource = Resource + Time.deltaTime;
+        }
 	}
 }
