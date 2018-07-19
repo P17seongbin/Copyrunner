@@ -19,9 +19,9 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
+        GM_Script = GameObject.Find("GameManager").GetComponent<GameManager>();
         Cur_Env = new Vector3 (0, 0, 0);
         Is_Moveable = true;
-       
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
         {
             Is_Moveable = false;
         }
-        else if()//(공격 가능한 Object가 사정거리 내에 있으면)
+        else if(true)//(공격 가능한 Object가 사정거리 내에 있으면)
         {
             Is_Moveable = false;
         }
@@ -70,7 +70,10 @@ public class Unit : MonoBehaviour
     }
     private void Check_Dead()
     {
+        if (Health < 0) //Unit이 죽었는지를 판정합니다.
+        {
 
+        }
     }
     private void Get_RGBValue()
     {
