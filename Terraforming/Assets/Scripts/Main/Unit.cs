@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     private GameObject HQ; //Unit을 소환한 HeadQuarter GameObject를 저장합니다.
     private int ID; //이 Unit의 번호를 나타냅니다. (할당된 슬롯 순서)
     // Use this for initialization
-
+    
     void Start()
     {
 
@@ -59,4 +59,5 @@ public class Unit : MonoBehaviour
     {
 
     }
+    
 }
