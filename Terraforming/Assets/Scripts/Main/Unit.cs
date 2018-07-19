@@ -19,13 +19,28 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
-
+        Cur_Env = new Vector3 (0, 0, 0);
+        Is_Moveable = true;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        Is_Moveable = true;
+        Check_Dead();
+        Get_RGBValue();
 
+        if (Health < 0)
+        {
+            Is_Moveable = false;
+        }
+        else if()//(공격 가능한 Object가 사정거리 내에 있으면)
+        {
+            Is_Moveable = false;
+        }
+
+        Move();
     }
 
     public void Init(int _Team, int _ID, GameObject HeadQuarter)
@@ -40,11 +55,11 @@ public class Unit : MonoBehaviour
     }
     public float Get_Cost()
     {
-
+        return Cost;
     }
     public float Get_SummonTime()
     {
-
+        return Summon_Time;
     }
     private void Move()
     {
