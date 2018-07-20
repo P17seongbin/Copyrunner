@@ -38,8 +38,9 @@ public class HeadQuarter : MonoBehaviour {
     public void Finish_Game()
     {
     }
-    public int[] Unit_Count()
+    public int[] Get_Unit_Count()
     {
+        return Unit_Count;
     }
     public void Unit_Dead(int ID)
     {
