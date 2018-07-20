@@ -77,12 +77,12 @@ public class HeadQuarter : MonoBehaviour {
     void Start()
     {
         Is_Casting = true;
-
         Unit_Count = new int[MAX_UNIT_VARIATION]; //종류별 현재 Unit의 수를 나타냅니다.Summon_Unit() 함수를 호출할 때 마다 각 종류에 해당하는 값이 1씩 증가하며, Removed() 함수가 호출될 때 마다 각 Unit 종류에 해당하는 값이 1씩 감소합니다.
         Unit_Cost = new float[MAX_UNIT_VARIATION];
         Unit_Summon_Time = new float[MAX_UNIT_VARIATION]; //플레이어가 선택한 Unit의 Cost와 Summon_Time을 저장합니다. Object Pooling 과정에서 저장합니다.
         Unit_Template = new GameObject[MAX_UNIT_VARIATION]; //플레이어가 선택한 Unit의 Prefab을 저장합니다, Object Pooling 과정에서 이 Prefab을 활용하여 진행합니다.
-
+        for (int i = 0; i < MAX_UNIT_VARIATION; i++)//초기화
+            Unit_Template[i] = null;
     }
 	
 	// Update is called once per frame
