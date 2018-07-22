@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 176204566}
   - component: {fileID: 176204565}
   - component: {fileID: 176204568}
+  - component: {fileID: 176204569}
   m_Layer: 0
   m_Name: Unit_Template
   m_TagString: Untagged
@@ -140,7 +141,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -226,14 +227,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818fd417299e24548be11849a6e23f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Max_Health: 0
-  Health: 0
+  Max_Health: 30
+  Health: 20
   Cost: 0
-  Speed: 0
+  Speed: 1
   Summon_Time: 0
   Attack_Speed: 0
   Hitbox: {fileID: 176204565}
   Attack_Range: {fileID: 681412301}
+  Team: 1
+  FrameRate: 60
+  ATK: 0
+  DEF: 0
+--- !u!50 &176204569
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 176204564}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,8 +341,9 @@ GameObject:
   m_Component:
   - component: {fileID: 681412302}
   - component: {fileID: 681412301}
+  - component: {fileID: 681412303}
   m_Layer: 0
-  m_Name: Unit_AttackRange
+  m_Name: Unit_AttackBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -332,7 +358,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 2.2, y: 0}
@@ -361,6 +387,18 @@ Transform:
   m_Father: {fileID: 176204567}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &681412303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 681412300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a25e1705d615a47bff7f98b2e13478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 176204568}
 --- !u!1 &747839910
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,5 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79234e50095def4e8bfeaa33bc86c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Max_Env: {x: 0, y: 0, z: 0}
+  Init_R: 5
+  Init_G: 5
+  Init_B: 5
+  Max_Env: {x: 10, y: 10, z: 10}
   Min_Env: {x: 0, y: 0, z: 0}

@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public Vector3 Max_Env, Min_Env;
     private Vector3 Cur_Env;
-    private float Init_R, Init_G, Init_B;
+
+
+    [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.
+    private float Init_R=5f, Init_G=5f, Init_B=5f;
+    [SerializeField] private Vector3 Max_Env, Min_Env;//최대 환경변수 및 최소 환경변수를 나타냅니다, Inspector에서 값을 입력받습니다. 
+
 
     // Use this for initialization
     void Start () {
-        //초기값을 설정하고 제한값을 넘지 않도록 조율해줍니다.
-        Init_R = 5f;
-        Init_G = 5f;
-        Init_B = 5f;
         Cur_Env = new Vector3(Init_R, Init_G, Init_B);
         Cur_Env = Limit_RGBValue(Cur_Env);
 	}
 
 	// Update is called once per frame
 	void Update () {
-
-
+      
         //Key가 눌렸는지 테스트하는 항목
         //Key를 꾹 누르고 있다고 여러번 소환되지 않으며, 키가 눌리는 순간에 단 한번 인식한다.
         if (Input.anyKeyDown)
