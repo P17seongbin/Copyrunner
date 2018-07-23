@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public Vector3 Cur_Env; // 
+    private Vector3 Cur_Env;
 
 
     [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.

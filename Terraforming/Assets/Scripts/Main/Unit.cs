@@ -10,6 +10,7 @@ public class Unit : TimeManager
     public float Summon_Time, Ori_Summon_Time, Fixed_Summon_Time; //각 Unit의 고유 소환시간입니다. 단위는 초입니다. Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
     public float Attack_Speed, Ori_Attack_Speed, Fixed_Attack_Speed; //각 Unit이 공격을 1회 하는데 걸리는 시간을 의미합니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
     public int Affect_Env, Effet_Env; //각 유닛이 환경에 영향을 받거나 영향을 줄 때 참조하는 환경을 나타내는 변수, 0(R), 1(G), 2(B) 중 하나의 값을 가진다. 
+    public float Affect_Env_Freq; ////각 유닛이 환경에 영향을 주는 주기 
     public float Max_Effect_Env, Min_Effet_Env; //각 유닛이 환경에 영향을 받을 때, 참조하는 조건
     public Vector3 Delta_Env;//각 유닛이 환경에 영향을 줄 때, 환경 변수값의 변화량
     public BoxCollider2D Hitbox, Attack_Range;//Unit의 피격 Hitbox와 공격범위 Hitbox입니다. Editor에서 할당받습니다.
@@ -44,7 +45,7 @@ public class Unit : TimeManager
         Cur_Env = new Vector3(0, 0, 0);
         Is_Moveable = true;
         Is_Paused = false;
-        InvokeRepeating("Change_Env", 3, 3f);
+        InvokeRepeating("Change_Env", Affect_Env_Freq, Affect_Env_Freq); //일정 주기마다 환경값을 바꾼다
     }
 
     // Update is called once per frame
@@ -71,7 +72,7 @@ public class Unit : TimeManager
             Is_Moveable = true;
             Check_Dead();
             Get_RGBValue();
-            Stat_Update();
+            Stat_Update(); //환경에 따른 스탯 변화 업데이트
 
             if (Health < 0)
             {
@@ -93,9 +94,9 @@ public class Unit : TimeManager
         }
     }
 
-    void Stat_Update()
+    void Stat_Update() //update 함수에 의해 호출됨
     {
-        if (Min_Effet_Env <= Cur_Env[Effet_Env] && Cur_Env[Effet_Env] <= Max_Effect_Env)      //일반화 필요
+        if (Min_Effet_Env <= Cur_Env[Effet_Env] && Cur_Env[Effet_Env] <= Max_Effect_Env)  //유닛이 환경에 영향받는 조건을 만족할 때
         {
             Cost = Fixed_Cost;
             Summon_Time = Fixed_Summon_Time;
@@ -103,10 +104,10 @@ public class Unit : TimeManager
             DEF = Fixed_DEF;
             Speed = Fixed_Speed;
             Attack_Speed = Fixed_Attack_Speed;
-            Attack_Range.size = new Vector2(Fixed_Attack_Range, 2.0f);
-            //Attack_Range.offset = new Vector2(Attack_Range.offset[0] + (Ori_Attack_Range - Fixed_Attack_Range) / 2, 0);
+            Attack_Range.size = new Vector2(Fixed_Attack_Range, 2.0f); //각 스탯들을 전부 fixed 값으로 교체
+            Attack_Range.offset = new Vector2( (Attack_Range.size.x / 2f) + 1.2f,0); //사거리 히트박스를 유닛의 위치에 맞게 재배치
         }
-        else
+        else 
         {
             Cost = Ori_Cost;
             Summon_Time = Ori_Summon_Time;
@@ -115,12 +116,14 @@ public class Unit : TimeManager
             Speed = Ori_Speed;
             Attack_Speed = Fixed_Attack_Speed;
             Attack_Range.size = new Vector2(Ori_Attack_Range, 2.0f);
-          
+            Attack_Range.offset = new Vector2(0, 0); //각 스탯들을 전부 origin 값으로 교체
+            Attack_Range.offset = new Vector2((Attack_Range.size.x / 2f) + 1.2f, 0);//사거리 히트박스를 유닛의 위치에 맞게 재배치
+
         }
 
     }
 
-    public void Change_Env()
+    public void Change_Env() //유닛에 의한 환경 변화
     {
         //GameManager gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
         //gamemanager.Cur_Env[Affect_Env] = Cur_Env[Affect_Env] + Delta_Env;
