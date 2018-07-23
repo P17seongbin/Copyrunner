@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour {
 
     public void Destroyed(int Team)
     {
-        
+       
   
         //Team 승리! 
         //모든 Unit의 Timescale을 0으로 변경
