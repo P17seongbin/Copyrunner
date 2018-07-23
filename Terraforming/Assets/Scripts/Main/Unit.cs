@@ -29,7 +29,7 @@ public class Unit : TimeManager
     private int ID; //이 Unit의 번호를 나타냅니다. (할당된 슬롯 순서)
     private bool Is_Paused = false;
     [SerializeField] private float ATK, DEF; //공격력, 방어력
-    private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
+    [SerializeField] private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
     private float Last_AttackTime;//마지막으로 공격한 시간을 저장합니다
     [SerializeField] private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
 
