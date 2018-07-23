@@ -5,26 +5,33 @@ using UnityEngine;
 public class Unit : TimeManager
 {
     public float Max_Health, Health;// 최대 체력수치/현재 체력수치를 나타냅니다, Unity 편집기에서 각 Unit별로 고유의 값을 지정합니다.
-    public float Cost; // 이 Unit을 소환하는데 필요한 자원(에너지) 의 양입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
-    public float Speed; //각 Unit의 고유 속도입니다, 단위는 Unity Meter입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
-    public float Summon_Time; //각 Unit의 고유 소환시간입니다. 단위는 초입니다. Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
-    public float Attack_Speed; //각 Unit이 공격을 1회 하는데 걸리는 시간을 의미합니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+    public float Cost, Ori_Cost, Fixed_Cost; // 이 Unit을 소환하는데 필요한 자원(에너지) 의 양입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+    public float Speed, Ori_Speed, Fixed_Speed; //각 Unit의 고유 속도입니다, 단위는 Unity Meter입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+    public float Summon_Time, Ori_Summon_Time, Fixed_Summon_Time; //각 Unit의 고유 소환시간입니다. 단위는 초입니다. Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+    public float Attack_Speed, Ori_Attack_Speed, Fixed_Attack_Speed; //각 Unit이 공격을 1회 하는데 걸리는 시간을 의미합니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+    public int Affect_Env, Effet_Env; //각 유닛이 환경에 영향을 받거나 영향을 줄 때 참조하는 환경을 나타내는 변수, 0(R), 1(G), 2(B) 중 하나의 값을 가진다. 
+    public float Affect_Env_Freq; ////각 유닛이 환경에 영향을 주는 주기 
+    public float Max_Effect_Env, Min_Effet_Env; //각 유닛이 환경에 영향을 받을 때, 참조하는 조건
+    public Vector3 Delta_Env;//각 유닛이 환경에 영향을 줄 때, 환경 변수값의 변화량
     public BoxCollider2D Hitbox, Attack_Range;//Unit의 피격 Hitbox와 공격범위 Hitbox입니다. Editor에서 할당받습니다.
+    public float Ori_Attack_Range, Fixed_Attack_Range;
     public int Team; //이 Unit이 속해있는 팀을 나타냅니다. 여기서 Team은 1 또는 -1입니다.
-
+    public bool Form_Change; //환경에 영향을 받을 때 공격 방식이 변화하는가? 각 유닛마다 true나 false 사전에 설정
+    //Ori : 고유스탯, Fixed : 환경에 의해 변화된 스탯
 
 
     [SerializeField] private float Unit_FrameRate;//TimeManager의 FrameRate를 Inspector에서 편집할 수 있게 만들어줍니다.
 
-    private Vector3 Cur_Env; //매 Frame마다 GameManager에게 현재 환경 변수를 받아오는 것을 저장할 임시 변수입니다.
+    [SerializeField] private Vector3 Cur_Env; //매 Frame마다 GameManager에게 현재 환경 변수를 받아오는 것을 저장할 임시 변수입니다.
     private bool Is_Moveable; //현재 Unit.cs가 붙어 있는 Object가 움직일 수 있는지를 나타냅니다. 기본값은 True이며, 앞에 공격할 수 있는 다른 Object가 있거나 health가 0보다 작아지면 False로 변경됩니다.
     private GameObject HQ; //Unit을 소환한 HeadQuarter GameObject를 저장합니다.
     private GameManager GM_Script; //GameManager Object에 붙어있는 GamemManager.cs를 나타냅니다.
     private int ID; //이 Unit의 번호를 나타냅니다. (할당된 슬롯 순서)
     private bool Is_Paused = false;
     [SerializeField] private float ATK, DEF; //공격력, 방어력
+    private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
     private float Last_AttackTime;//마지막으로 공격한 시간을 저장합니다
-    private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
+    [SerializeField] private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
 
 
     void Start()
@@ -35,9 +42,10 @@ public class Unit : TimeManager
         Last_AttackTime = Time.fixedTime;
         LastUpdateTime = Time.fixedTime;
         GM_Script = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Cur_Env = new Vector3 (0, 0, 0);
+        Cur_Env = new Vector3(0, 0, 0);
         Is_Moveable = true;
         Is_Paused = false;
+        InvokeRepeating("Change_Env", Affect_Env_Freq, Affect_Env_Freq); //일정 주기마다 환경값을 바꾼다
     }
 
     // Update is called once per frame
@@ -64,24 +72,58 @@ public class Unit : TimeManager
             Is_Moveable = true;
             Check_Dead();
             Get_RGBValue();
+            Stat_Update(); //환경에 따른 스탯 변화 업데이트
 
-            if (Health < 0)
-            {
-                Is_Moveable = false;
-            }
-            else if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
+            if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
             {
                 Is_Moveable = false;
             }
             Debug.Log(Enemies.Count);
             Move();
 
-            if(Time.fixedTime - Last_AttackTime >= Attack_Speed)//마지막 공격 후 공격주기만큼의 시간이 지났으면 공격을 시도한다.
+            if (Time.fixedTime - Last_AttackTime >= Attack_Speed)//마지막 공격 후 공격주기만큼의 시간이 지났으면 공격을 시도한다.
             {
                 Last_AttackTime = Time.fixedTime;
                 Attack();
             }
+
         }
+    }
+
+    void Stat_Update() //update 함수에 의해 호출됨
+    {
+        if (Min_Effet_Env <= Cur_Env[Effet_Env] && Cur_Env[Effet_Env] <= Max_Effect_Env)  //유닛이 환경에 영향받는 조건을 만족할 때
+        {
+            Cost = Fixed_Cost;
+            Summon_Time = Fixed_Summon_Time;
+            ATK = Fixed_ATK;
+            DEF = Fixed_DEF;
+            Speed = Fixed_Speed;
+            Attack_Speed = Fixed_Attack_Speed;
+            Attack_Range.size = new Vector2(Fixed_Attack_Range, 2.0f); //각 스탯들을 전부 fixed 값으로 교체
+            Attack_Range.offset = new Vector2( (Attack_Range.size.x / 2f) + 1.2f,0); //사거리 히트박스를 유닛의 위치에 맞게 재배치
+        }
+        else 
+        {
+            Cost = Ori_Cost;
+            Summon_Time = Ori_Summon_Time;
+            ATK = Ori_ATK;
+            DEF = Ori_DEF;
+            Speed = Ori_Speed;
+            Attack_Speed = Fixed_Attack_Speed;
+            Attack_Range.size = new Vector2(Ori_Attack_Range, 2.0f);
+            Attack_Range.offset = new Vector2(0, 0); //각 스탯들을 전부 origin 값으로 교체
+            Attack_Range.offset = new Vector2((Attack_Range.size.x / 2f) + 1.2f, 0);//사거리 히트박스를 유닛의 위치에 맞게 재배치
+
+        }
+
+    }
+
+    public void Change_Env() //유닛에 의한 환경 변화
+    {
+        //GameManager gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //gamemanager.Cur_Env[Affect_Env] = Cur_Env[Affect_Env] + Delta_Env;
+        GM_Script.Change_RGBValue(Delta_Env);
     }
 
     public void Init(int _Team, int _ID, GameObject HeadQuarter)
@@ -98,7 +140,7 @@ public class Unit : TimeManager
 
         //예시로 짠 코드는 가장 가까운 적의 Hit(피격) 함수를 호출하는 것이며, 여기 코드는 기획서에 맞게 수정하셔야 합니다.
 
-        GameObject Target= null;//단일 대상 공격
+        GameObject Target = null;//단일 대상 공격
         //List<GameObject> Target_List; //다중 공격
         float dist = 300000f;
 
@@ -154,9 +196,10 @@ public class Unit : TimeManager
 
     private void Check_Dead()
     {
-        if (Health < 0) //Unit이 죽었는지를 판정합니다.
+        if (Health <= 0) //Unit이 죽었는지를 판정합니다.
         {
-
+            Is_Moveable = false;
+            gameObject.SetActive(false);
         }
     }
     private void Get_RGBValue()
@@ -169,7 +212,7 @@ public class Unit : TimeManager
 
     }
     */
-    
+
     public void Add_Enemy(Transform Enemy)
     {
         if (!Enemies.Contains(Enemy))
