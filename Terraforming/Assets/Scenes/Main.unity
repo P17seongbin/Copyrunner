@@ -232,7 +232,7 @@ MonoBehaviour:
   Cost: 0
   Speed: 1
   Summon_Time: 0
-  Attack_Speed: 0
+  Attack_Speed: 3
   Hitbox: {fileID: 176204565}
   Attack_Range: {fileID: 681412301}
   Team: 1
@@ -388,7 +388,7 @@ MonoBehaviour:
   Cost: 0
   Speed: 1
   Summon_Time: 0
-  Attack_Speed: 0
+  Attack_Speed: 3
   Hitbox: {fileID: 553269315}
   Attack_Range: {fileID: 2061410427}
   Team: -1
@@ -647,7 +647,7 @@ MonoBehaviour:
   Cost: 0
   Speed: 1
   Summon_Time: 0
-  Attack_Speed: 0
+  Attack_Speed: 3
   Hitbox: {fileID: 1241002532}
   Attack_Range: {fileID: 1885724056}
   Team: -1
