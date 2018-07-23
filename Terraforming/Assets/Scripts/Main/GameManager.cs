@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    private Vector3 Cur_Env;
+    public Vector3 Cur_Env; // 
 
 
     [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour {
 
     public void Destroyed(int Team)
     {
-        
+       
   
         //Team 승리! 
         //모든 Unit의 Timescale을 0으로 변경
