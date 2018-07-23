@@ -24,7 +24,7 @@ public class Unit : TimeManager
     private bool Is_Paused = false;
     [SerializeField] private float ATK, DEF; //공격력, 방어력
     private float Last_AttackTime;//마지막으로 공격한 시간을 저장합니다
-    private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
+    [SerializeField] private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
 
 
     void Start()
@@ -65,11 +65,7 @@ public class Unit : TimeManager
             Check_Dead();
             Get_RGBValue();
 
-            if (Health < 0)
-            {
-                Is_Moveable = false;
-            }
-            else if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
+            if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
             {
                 Is_Moveable = false;
             }
@@ -154,9 +150,10 @@ public class Unit : TimeManager
 
     private void Check_Dead()
     {
-        if (Health < 0) //Unit이 죽었는지를 판정합니다.
+        if (Health <= 0) //Unit이 죽었는지를 판정합니다.
         {
-
+            Is_Moveable = false;
+            gameObject.SetActive(false);
         }
     }
     private void Get_RGBValue()
