@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61841656703217568}
   m_Layer: 0
   m_Name: 1P_HQ
-  m_TagString: Unit
+  m_TagString: HQ
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

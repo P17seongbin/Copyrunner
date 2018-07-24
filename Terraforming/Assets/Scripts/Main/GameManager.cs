@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        P1_CreatureList = new List<GameObject>();
+        P2_CreatureList = new List<GameObject>();
+
         Cur_Env = new Vector3(Init_R, Init_G, Init_B);
         Cur_Env = Limit_RGBValue(Cur_Env);
 
@@ -40,6 +43,11 @@ public class GameManager : MonoBehaviour {
         P1_HQ = P1_HQPivot.transform.Find("1P_HQ").gameObject;
         P2_HQ = P2_HQPivot.transform.Find("2P_HQ").gameObject;
 
+        //(임시 코드) Unit을 저장한다.
+        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_1") as GameObject);
+        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
+        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_1") as GameObject);
+        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
 
     }
 
@@ -69,6 +77,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
+                P1_HQ.GetComponent<HeadQuarter>().Summon_Order(1);
                 //Player 1 크리쳐 2 소환
             }
             if (Input.GetKeyDown(KeyCode.E))
@@ -82,14 +91,13 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
+                P2_HQ.GetComponent<HeadQuarter>().Summon_Order(1);
                 //Player 2 크리쳐 2 소환
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
                 //Player 2 크리쳐 3 소환
             }
-
-
             if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
             {
                 //Player 1 주문 1 시전
@@ -131,6 +139,26 @@ public class GameManager : MonoBehaviour {
         //모든 Unit의 Timescale을 0으로 변경
         //혹은 Unit 고유의 승리 / 패배 애니메이션을 재생 
         //기획서에서 확정하면 그때 작성
+    }
+
+    public GameObject[] Get_UnitLIst(int Team, int MAX_UNIT_COUNT)
+    {
+        GameObject[] temp = new GameObject[MAX_UNIT_COUNT];
+        try
+        {
+            for (int i = 0; i < MAX_UNIT_COUNT; i++)
+            {
+                if (Team == 1)
+                    temp[i] = P1_CreatureList[i];
+                else
+                    temp[i] = P2_CreatureList[i];
+            }
+            return temp;
+        }
+        catch
+        {
+            return temp;
+        }
     }
 
 

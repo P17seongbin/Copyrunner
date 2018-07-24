@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeadQuarter : MonoBehaviour {
 
     public int Team;
-    public int MAX_UNIT_VARIATION=3; //플레이어가 가질 수 있는 유닛의 총 개수를 의미합니다, Defalut값은 3입니다.
+    public int MAX_UNIT_VARIATION=2; //플레이어가 가질 수 있는 유닛의 총 개수를 의미합니다, Defalut값은 3입니다.
 
     bool Is_Casting; //주문을 시전하고 있는지 여부를 나타냅니다.Default값은 False입니다.
     bool Is_Paused; //현재 게임이 일시정지 되었는지를 나타냅니다.Default값은 False입니다.
@@ -111,9 +111,8 @@ public class HeadQuarter : MonoBehaviour {
             Unit_Template[i] = null;
             Unit_Count[i] = 0;
         }
+        Unit_Template = GameObject.Find("GameManager").GetComponent<GameManager>().Get_UnitLIst(Team, MAX_UNIT_VARIATION);
 
-        //임시코드
-        Unit_Template[0] = Resources.Load<GameObject>("Prefabs/Unit_Template");
     }
 	
 	// Update is called once per frame

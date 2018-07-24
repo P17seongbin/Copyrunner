@@ -18,6 +18,10 @@ public class HitBox : MonoBehaviour {
                 Parent.Add_Enemy(collision.transform);
             }
         }
+        else if(collision.gameObject.tag == "HQ")
+        {
+
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -30,6 +34,10 @@ public class HitBox : MonoBehaviour {
             {
                 Parent.Remove_Enemy(collision.transform);
             }
+        }
+        else if (collision.gameObject.tag == "HQ")
+        {
+
         }
     }
 
