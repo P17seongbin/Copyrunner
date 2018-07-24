@@ -4,22 +4,55 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public Camera MainCamera;
+
     private Vector3 Cur_Env;
-
-
     [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.
     private float Init_R=5f, Init_G=5f, Init_B=5f;
     [SerializeField] private Vector3 Max_Env, Min_Env;//최대 환경변수 및 최소 환경변수를 나타냅니다, Inspector에서 값을 입력받습니다. 
 
+    private float Cam_Width, Cam_Height;
+    private GameObject P1_HQ, P2_HQ;
+
+    private List<GameObject> P1_CreatureList, P2_CreatureList;
+
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Cur_Env = new Vector3(Init_R, Init_G, Init_B);
         Cur_Env = Limit_RGBValue(Cur_Env);
-	}
+
+        //현재 카메라 크기를 파악한다.
+        float MainCam_Aspect = MainCamera.aspect;
+        Cam_Height = MainCamera.orthographicSize;
+        Cam_Width = Cam_Height * MainCam_Aspect;
+        Debug.Log(Cam_Height);
+        Debug.Log(Cam_Width);
+
+        //HQ가 있어야 할 위치에 HQ를 배치한다.
+        GameObject P1_HQPivot = Instantiate(Resources.Load("Prefabs/1P_HQPivot", typeof(GameObject))) as GameObject;
+        GameObject P2_HQPivot = Instantiate(Resources.Load("Prefabs/2P_HQPivot", typeof(GameObject))) as GameObject;
+        P1_HQPivot.transform.position = new Vector3(-1f * Cam_Width, 0f, 0f);
+        P2_HQPivot.transform.position = new Vector3(Cam_Width, 0f, 0f);
+
+        //HQ를 저장한다.
+        P1_HQ = P1_HQPivot.transform.Find("1P_HQ").gameObject;
+        P2_HQ = P2_HQPivot.transform.Find("2P_HQ").gameObject;
+
+
+    }
+
+    //각 플레이어가 선택한 크리쳐를 받아오는 함수, 
+    //프로토타입에서는 정해진 Prefab에서 받아오지만 정식 버전에서는 다른 Scene에서 저장한 데이터를 받아오는 함수로 변경할 것.
+    public void Set_CreatureList()
+    {
+
+    }
 
 	// Update is called once per frame
 	void Update () {
+        
       
         //Key가 눌렸는지 테스트하는 항목
         //Key를 꾹 누르고 있다고 여러번 소환되지 않으며, 키가 눌리는 순간에 단 한번 인식한다.
@@ -31,6 +64,7 @@ public class GameManager : MonoBehaviour {
             }
             if(Input.GetKeyDown(KeyCode.Q))
             {
+                P1_HQ.GetComponent<HeadQuarter>().Summon_Order(0);
                 //Player 1 크리쳐 1 소환
             }
             if (Input.GetKeyDown(KeyCode.W))
@@ -43,6 +77,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
+                P2_HQ.GetComponent<HeadQuarter>().Summon_Order(0);
                 //Player 2 크리쳐 1 소환
             }
             if (Input.GetKeyDown(KeyCode.I))

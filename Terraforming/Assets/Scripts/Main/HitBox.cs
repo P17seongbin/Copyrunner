@@ -9,9 +9,9 @@ public class HitBox : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Unit")
+        if (collision.gameObject.tag == "Unit")
         {
-            collidedUnit = collision.GetComponent<Unit>();
+            collidedUnit = collision.gameObject.GetComponent<Unit>();
 
             if (collidedUnit.Team != Parent.Team)
             {
@@ -21,9 +21,10 @@ public class HitBox : MonoBehaviour {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Unit")
+       
+        if (collision.gameObject.tag == "Unit")
         {
-            collidedUnit = collision.GetComponent<Unit>();
+            collidedUnit = collision.gameObject.GetComponent<Unit>();
 
             if (collidedUnit.Team != Parent.Team)
             {
