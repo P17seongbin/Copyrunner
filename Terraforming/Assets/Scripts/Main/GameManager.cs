@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour {
         P2_HQ = P2_HQPivot.transform.Find("2P_HQ").gameObject;
 
         //(임시 코드) Unit을 저장한다.
-        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_1") as GameObject);
+        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
         P1_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
-        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_1") as GameObject);
+        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
         P2_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
 
     }

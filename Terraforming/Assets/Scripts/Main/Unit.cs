@@ -8,7 +8,10 @@ public class Unit : TimeManager
     public float Cost, Ori_Cost, Fixed_Cost; // 이 Unit을 소환하는데 필요한 자원(에너지) 의 양입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
     public float Speed, Ori_Speed, Fixed_Speed; //각 Unit의 고유 속도입니다, 단위는 Unity Meter입니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
     public float Summon_Time, Ori_Summon_Time, Fixed_Summon_Time; //각 Unit의 고유 소환시간입니다. 단위는 초입니다. Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
-    public float Attack_Speed, Ori_Attack_Speed, Fixed_Attack_Speed; //각 Unit이 공격을 1회 하는데 걸리는 시간을 의미합니다.Unity 편집기에서 각 Unit별로 별도의 값을 지정한 뒤 Prefab화 합니다.
+
+    [SerializeField] private float Attack_Speed; //각 Unit이 공격을 하는데 걸리는 시간의 최대공약수입니다. 즉 단위공격주기라고 생각하시면 됩니다. (default: 0.05sec)
+    public int[] Attack_Num; //단위공격주기가 지난 후 공격할 지 말지를 결정하는 배열입니다.
+
     public int Affect_Env, Effet_Env; //각 유닛이 환경에 영향을 받거나 영향을 줄 때 참조하는 환경을 나타내는 변수, 0(R), 1(G), 2(B) 중 하나의 값을 가진다. 
     public float Affect_Env_Freq; ////각 유닛이 환경에 영향을 주는 주기 
     public float Max_Effect_Env, Min_Effet_Env; //각 유닛이 환경에 영향을 받을 때, 참조하는 조건
@@ -25,6 +28,9 @@ public class Unit : TimeManager
 
     [SerializeField] private Vector3 Cur_Env; //매 Frame마다 GameManager에게 현재 환경 변수를 받아오는 것을 저장할 임시 변수입니다.
     private bool Is_Moveable; //현재 Unit.cs가 붙어 있는 Object가 움직일 수 있는지를 나타냅니다. 기본값은 True이며, 앞에 공격할 수 있는 다른 Object가 있거나 health가 0보다 작아지면 False로 변경됩니다.
+    private bool Is_Attack; //현재 Unit.cs가 붙어 있는 Object가 공격하고 있는지를 나타냅니다. 기본값은 False이며, 지금 공격하고 있는 다른 Object가 있으면 True로 변경됩니다.
+    private bool Is_Dead; //현재 Unit.cs가 붙어 있는 Object가 죽었는지를 나타냅니다. 기본값은 False이며, 이 Unit이 죽으면 True로 변경됩니다.
+    private bool Is_Fixed; //현재 Unit.cs가 붙어 있는 Object가 환경에 의해 변화되었는지를 나타냅니다. Ori 상태일 경우 False이며, Fixed 상태일 경우 True입니다.
     private GameObject HQ; //Unit을 소환한 HeadQuarter GameObject를 저장합니다.
     private GameManager GM_Script; //GameManager Object에 붙어있는 GamemManager.cs를 나타냅니다.
   
@@ -32,21 +38,27 @@ public class Unit : TimeManager
     [SerializeField] private float ATK, DEF; //공격력, 방어력
     [SerializeField] private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
     private float Last_AttackTime;//마지막으로 공격한 시간을 저장합니다
-    [SerializeField] private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
-
-
+    private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
+    
     void Start()
     {
         TimeScale = 1f;
         FrameRate = Unit_FrameRate;
 
+        Attack_Speed = 0.05f;
         Last_AttackTime = Time.fixedTime;
         LastUpdateTime = Time.fixedTime;
         GM_Script = GameObject.Find("GameManager").GetComponent<GameManager>();
         Cur_Env = new Vector3(0, 0, 0);
         Is_Moveable = true;
+        Is_Attack = false;
+        Is_Dead = false;
         Is_Paused = false;
         InvokeRepeating("Change_Env", Affect_Env_Freq, Affect_Env_Freq); //일정 주기마다 환경값을 바꾼다
+
+        Stat_Update(); //시작할 때 딱 한 번 스텟을 업데이트 시켜준다.
+
+        StartCoroutine("Attack_Time"); //공격
     }
 
     // Update is called once per frame
@@ -71,6 +83,7 @@ public class Unit : TimeManager
         if (Refresh_TimeCheck())
         {
             Is_Moveable = true;
+            Is_Attack = false;
             Check_Dead();
             Get_RGBValue();
             Stat_Update(); //환경에 따른 스탯 변화 업데이트
@@ -78,15 +91,16 @@ public class Unit : TimeManager
             if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
             {
                 Is_Moveable = false;
+                Is_Attack = true;
             }
             Debug.Log(Enemies.Count);
             Move();
 
-            if (Time.fixedTime - Last_AttackTime >= Attack_Speed)//마지막 공격 후 공격주기만큼의 시간이 지났으면 공격을 시도한다.
+            /*if (Time.fixedTime - Last_AttackTime >= Attack_Speed)//마지막 공격 후 공격주기만큼의 시간이 지났으면 공격을 시도한다.
             {
                 Last_AttackTime = Time.fixedTime;
                 Attack();
-            }
+            }*/
 
         }
     }
@@ -95,23 +109,23 @@ public class Unit : TimeManager
     {
         if (Min_Effet_Env <= Cur_Env[Effet_Env] && Cur_Env[Effet_Env] <= Max_Effect_Env)  //유닛이 환경에 영향받는 조건을 만족할 때
         {
+            Is_Fixed = true;
             Cost = Fixed_Cost;
             Summon_Time = Fixed_Summon_Time;
             ATK = Fixed_ATK;
             DEF = Fixed_DEF;
             Speed = Fixed_Speed;
-            Attack_Speed = Fixed_Attack_Speed;
             Attack_Range.size = new Vector2(Fixed_Attack_Range, 2.0f); //각 스탯들을 전부 fixed 값으로 교체
             Attack_Range.offset = new Vector2( (Attack_Range.size.x / 2f) + 1.2f,0); //사거리 히트박스를 유닛의 위치에 맞게 재배치
         }
         else 
         {
+            Is_Fixed = false;
             Cost = Ori_Cost;
             Summon_Time = Ori_Summon_Time;
             ATK = Ori_ATK;
             DEF = Ori_DEF;
             Speed = Ori_Speed;
-            Attack_Speed = Fixed_Attack_Speed;
             Attack_Range.size = new Vector2(Ori_Attack_Range, 2.0f);
             Attack_Range.offset = new Vector2(0, 0); //각 스탯들을 전부 origin 값으로 교체
             Attack_Range.offset = new Vector2((Attack_Range.size.x / 2f) + 1.2f, 0);//사거리 히트박스를 유닛의 위치에 맞게 재배치
@@ -131,6 +145,30 @@ public class Unit : TimeManager
     {
         Team = _Team; //팀의 정보를 Unit에게 넘겨줍니다. 여기서 Team은 1 또는 -1입니다.
         HQ = HeadQuarter; //Unit을 소환한 HeadQuarter GameObject를 Unit에게 넘겨줍니다.
+    }
+
+    IEnumerator Attack_Time()
+    {
+        while(!Is_Dead)
+        {
+            for (int i = 0; i < Attack_Num.Length; i++) //Attack_Num[i] 안의 수가 0일 때는 공격불가, 1, 2, 3일 때는 밑에 주석에 나온다.
+            {
+                if (Attack_Num[i] == 3) //Ori든 Fixed든 상관없을 때
+                {
+                    Attack();
+                }
+                else if (Attack_Num[i] == 1 && Is_Fixed == false) //Ori 상태일 때의 공격주기
+                {
+                    Attack();
+                }
+                else if (Attack_Num[i] == 2 && Is_Fixed == true) //Fixed 상태일 때의 공격주기
+                {
+                    Attack();
+                }
+
+                yield return new WaitForSeconds(Attack_Speed);
+            }
+        }
     }
 
     private void Attack()
@@ -153,13 +191,28 @@ public class Unit : TimeManager
                 continue;
             }
 
-            if (ranged.gameObject.GetComponent<Unit>().Team != Team)//적이넹
+            if (ranged.gameObject.tag == "Unit")
             {
-                float temp_dist = Vector3.Distance(ranged.position, transform.position);
-                if (temp_dist < dist)
+                if (ranged.gameObject.GetComponent<Unit>().Team != Team) //적 Unit이넹
                 {
-                    Target = ranged.gameObject;
-                    dist = temp_dist;
+                    float temp_dist = Vector3.Distance(ranged.position, transform.position);
+                    if (temp_dist < dist)
+                    {
+                        Target = ranged.gameObject;
+                        dist = temp_dist;
+                    }
+                }
+            }
+            else if (ranged.gameObject.tag == "HQ")
+            {
+                if (ranged.gameObject.GetComponent<HeadQuarter>().Team != Team) //적 HQ이넹
+                {
+                    float temp_dist = Vector3.Distance(ranged.position, transform.position);
+                    if (temp_dist < dist)
+                    {
+                        Target = ranged.gameObject;
+                        dist = temp_dist;
+                    }
                 }
             }
         }
@@ -167,7 +220,14 @@ public class Unit : TimeManager
             return;
         else
         {
-            Target.GetComponent<Unit>().Hit(ATK);
+            if (Target.tag == "Unit")
+            {
+                Target.GetComponent<Unit>().Hit(ATK);
+            }
+            else if (Target.tag == "HQ")
+            {
+                Target.GetComponent<HeadQuarter>().Hit(ATK);
+            }
         }
     }
 
@@ -199,6 +259,8 @@ public class Unit : TimeManager
         if (Health <= 0) //Unit이 죽었는지를 판정합니다.
         {
             Is_Moveable = false;
+            Is_Attack = false;
+            Is_Dead = true;
             gameObject.SetActive(false);
         }
     }

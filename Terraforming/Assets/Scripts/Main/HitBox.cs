@@ -6,6 +6,7 @@ public class HitBox : MonoBehaviour {
 
     public Unit Parent;
     private Unit collidedUnit;
+    private HeadQuarter collidedHQ;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,7 +21,12 @@ public class HitBox : MonoBehaviour {
         }
         else if(collision.gameObject.tag == "HQ")
         {
+            collidedHQ = collision.gameObject.GetComponent<HeadQuarter>();
 
+            if (collidedHQ.Team != Parent.Team)
+            {
+                Parent.Add_Enemy(collision.transform);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -37,7 +43,12 @@ public class HitBox : MonoBehaviour {
         }
         else if (collision.gameObject.tag == "HQ")
         {
+            collidedHQ = collision.gameObject.GetComponent<HeadQuarter>();
 
+            if (collidedHQ.Team != Parent.Team)
+            {
+                Parent.Add_Enemy(collision.transform);
+            }
         }
     }
 
