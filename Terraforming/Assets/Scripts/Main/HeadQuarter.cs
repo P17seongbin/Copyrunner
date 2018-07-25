@@ -24,7 +24,9 @@ public class HeadQuarter : MonoBehaviour {
         if (0 <= ID && ID < MAX_UNIT_VARIATION)
         {
             //현재 소환 가능한지 검사하고 불가능하면 각 경우별로 특수한 행동을 취하게 만들 것.
-            GameObject temp = Summon_Unit(ID);
+
+            //가능하면 소환 큐에 넣는다.(취소는 불가능하므로 Unit Count + 1)
+            GameObject temp = GetComponent<SummonManager>().Enqueue_Unit(Unit_Template[ID]);
             if (temp != null)
                 Unit_Count[ID]++;
             return temp != null;
@@ -44,8 +46,8 @@ public class HeadQuarter : MonoBehaviour {
             float Unit_XSize = res.GetComponent<BoxCollider2D>().size.x;
             res.transform.position = new Vector3((transform.position.x + (Team * (XSize + Unit_XSize) / 2f)), 0f, 0f);
             res.transform.rotation = Quaternion.Euler(new Vector3(0f, (90f - Team * 90f) , 0f));
-            res.GetComponent<Unit>().Init(Team, ID, gameObject);
-
+            res.GetComponent<Unit>().Init(Team, gameObject);
+            s
 
             return res;
 

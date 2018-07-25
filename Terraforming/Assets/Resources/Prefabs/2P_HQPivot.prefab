@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212963521290230120}
   - component: {fileID: 114189657320257424}
   - component: {fileID: 61400492362855842}
+  - component: {fileID: 114024719917347038}
   m_Layer: 0
   m_Name: 2P_HQ
   m_TagString: HQ
@@ -96,6 +97,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 6}
   m_EdgeRadius: 0
+--- !u!114 &114024719917347038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1333144997704800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f162090d74a5846ab05b585e6c855a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114189657320257424
 MonoBehaviour:
   m_ObjectHideFlags: 1

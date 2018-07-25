@@ -149,9 +149,19 @@ public class GameManager : MonoBehaviour {
             for (int i = 0; i < MAX_UNIT_COUNT; i++)
             {
                 if (Team == 1)
-                    temp[i] = P1_CreatureList[i];
+                {
+                    GameObject p = Instantiate(P1_CreatureList[i]);
+                    p.GetComponent<Unit>().ID = i;
+                    p.SetActive(false);
+                    temp[i] = p;
+                }
                 else
-                    temp[i] = P2_CreatureList[i];
+                {
+                    GameObject p = Instantiate(P2_CreatureList[i]);
+                    p.GetComponent<Unit>().ID = i;
+                    p.SetActive(false);
+                    temp[i] = p;
+                }
             }
             return temp;
         }

@@ -17,6 +17,7 @@ public class Unit : TimeManager
     public float Ori_Attack_Range, Fixed_Attack_Range;
     public int Team; //이 Unit이 속해있는 팀을 나타냅니다. 여기서 Team은 1 또는 -1입니다.
     public bool Form_Change; //환경에 영향을 받을 때 공격 방식이 변화하는가? 각 유닛마다 true나 false 사전에 설정
+    public int ID; //이 Unit의 번호를 나타냅니다. (할당된 슬롯 순서)
     //Ori : 고유스탯, Fixed : 환경에 의해 변화된 스탯
 
 
@@ -26,7 +27,7 @@ public class Unit : TimeManager
     private bool Is_Moveable; //현재 Unit.cs가 붙어 있는 Object가 움직일 수 있는지를 나타냅니다. 기본값은 True이며, 앞에 공격할 수 있는 다른 Object가 있거나 health가 0보다 작아지면 False로 변경됩니다.
     private GameObject HQ; //Unit을 소환한 HeadQuarter GameObject를 저장합니다.
     private GameManager GM_Script; //GameManager Object에 붙어있는 GamemManager.cs를 나타냅니다.
-    private int ID; //이 Unit의 번호를 나타냅니다. (할당된 슬롯 순서)
+  
     private bool Is_Paused = false;
     [SerializeField] private float ATK, DEF; //공격력, 방어력
     [SerializeField] private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
@@ -126,10 +127,9 @@ public class Unit : TimeManager
         GM_Script.Change_RGBValue(Delta_Env);
     }
 
-    public void Init(int _Team, int _ID, GameObject HeadQuarter)
+    public void Init(int _Team, GameObject HeadQuarter)
     {
         Team = _Team; //팀의 정보를 Unit에게 넘겨줍니다. 여기서 Team은 1 또는 -1입니다.
-        ID = _ID; //Unit의 번호를 Unit에게 넘겨줍니다.
         HQ = HeadQuarter; //Unit을 소환한 HeadQuarter GameObject를 Unit에게 넘겨줍니다.
     }
 
