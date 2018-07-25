@@ -16,7 +16,7 @@ public class HeadQuarter : MonoBehaviour {
     float[] Unit_Summon_Time; //플레이어가 선택한 Unit의 Cost와 Summon_Time을 저장합니다. Object Pooling 과정에서 저장합니다.
     GameObject[] Unit_Template; //플레이어가 선택한 Unit의 Prefab을 저장합니다, Object Pooling 과정에서 이 Prefab을 활용하여 진행합니다.
     int[] Unit_Queue = new int[5]; //소환 대기열에 들어있는 Unit의 번호를 나타냅니다.
-    float XSize;
+
 
 
     public bool Summon_Order(int ID)
@@ -35,6 +35,7 @@ public class HeadQuarter : MonoBehaviour {
             return false;
     }
     //이 함수는 건드리지 마세요
+    /*
     private GameObject Summon_Unit(int ID)
     {
         if (0 <= ID && ID < MAX_UNIT_VARIATION)
@@ -47,7 +48,7 @@ public class HeadQuarter : MonoBehaviour {
             res.transform.position = new Vector3((transform.position.x + (Team * (XSize + Unit_XSize) / 2f)), 0f, 0f);
             res.transform.rotation = Quaternion.Euler(new Vector3(0f, (90f - Team * 90f) , 0f));
             res.GetComponent<Unit>().Init(Team, gameObject);
-            s
+
 
             return res;
 
@@ -56,7 +57,7 @@ public class HeadQuarter : MonoBehaviour {
         else
             return null;
     }
-
+    */
     public void Hit(float damage)
     {
         //HQ는 크리쳐의 공격력만큼 그대로 데미지를 입는다
@@ -100,8 +101,6 @@ public class HeadQuarter : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        XSize = GetComponent<BoxCollider2D>().size.x;
-
 
         Is_Casting = true;
         Unit_Count = new int[MAX_UNIT_VARIATION]; //종류별 현재 Unit의 수를 나타냅니다.Summon_Unit() 함수를 호출할 때 마다 각 종류에 해당하는 값이 1씩 증가하며, Removed() 함수가 호출될 때 마다 각 Unit 종류에 해당하는 값이 1씩 감소합니다.
