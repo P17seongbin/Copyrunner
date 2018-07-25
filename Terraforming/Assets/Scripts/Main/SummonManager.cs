@@ -51,7 +51,7 @@ public class SummonManager : MonoBehaviour {
         }
 
 
-        if(Is_Summoning && Time.fixedTime - Summon_StartTime >= Summon_CastTime)
+        if(Is_Summoning && (Time.fixedTime - Summon_StartTime >= Summon_CastTime))
         {
             Is_Summoning = false;
             Summon_Unit(Unit_Queue[0]);
@@ -60,6 +60,7 @@ public class SummonManager : MonoBehaviour {
             {
                 Unit_Queue[i - 1] = Unit_Queue[i];
             }
+            Unit_Queue[CUR_QUEUE_SIZE-1] = null;
             CUR_QUEUE_SIZE--;
             Queue_Image_Update();
         }

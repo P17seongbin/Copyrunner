@@ -32,9 +32,8 @@ public class Unit : TimeManager
     [SerializeField] private float ATK, DEF; //공격력, 방어력
     [SerializeField] private float Ori_ATK, Fixed_ATK, Ori_DEF, Fixed_DEF;
     private float Last_AttackTime;//마지막으로 공격한 시간을 저장합니다
-    [SerializeField] private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
-
-
+    private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
+    
     void Start()
     {
         TimeScale = 1f;
@@ -153,13 +152,28 @@ public class Unit : TimeManager
                 continue;
             }
 
-            if (ranged.gameObject.GetComponent<Unit>().Team != Team)//적이넹
+            if (ranged.gameObject.tag == "Unit")
             {
-                float temp_dist = Vector3.Distance(ranged.position, transform.position);
-                if (temp_dist < dist)
+                if (ranged.gameObject.GetComponent<Unit>().Team != Team) //적 Unit이넹
                 {
-                    Target = ranged.gameObject;
-                    dist = temp_dist;
+                    float temp_dist = Vector3.Distance(ranged.position, transform.position);
+                    if (temp_dist < dist)
+                    {
+                        Target = ranged.gameObject;
+                        dist = temp_dist;
+                    }
+                }
+            }
+            else if (ranged.gameObject.tag == "HQ")
+            {
+                if (ranged.gameObject.GetComponent<HeadQuarter>().Team != Team) //적 HQ이넹
+                {
+                    float temp_dist = Vector3.Distance(ranged.position, transform.position);
+                    if (temp_dist < dist)
+                    {
+                        Target = ranged.gameObject;
+                        dist = temp_dist;
+                    }
                 }
             }
         }
@@ -167,7 +181,14 @@ public class Unit : TimeManager
             return;
         else
         {
-            Target.GetComponent<Unit>().Hit(ATK);
+            if (Target.tag == "Unit")
+            {
+                Target.GetComponent<Unit>().Hit(ATK);
+            }
+            else if (Target.tag == "HQ")
+            {
+                Target.GetComponent<HeadQuarter>().Hit(ATK);
+            }
         }
     }
 

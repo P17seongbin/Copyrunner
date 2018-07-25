@@ -9,8 +9,8 @@ public class HeadQuarter : MonoBehaviour {
 
     bool Is_Casting; //주문을 시전하고 있는지 여부를 나타냅니다.Default값은 False입니다.
     bool Is_Paused; //현재 게임이 일시정지 되었는지를 나타냅니다.Default값은 False입니다.
-    float Health; //HQ의 현재 체력을 나타냅니다.
-    float Resource; //HQ가 현재 소유한 자원의 수를 나타냅니다.
+    [SerializeField] float Health; //HQ의 현재 체력을 나타냅니다.
+    [SerializeField] float Resource; //HQ가 현재 소유한 자원의 수를 나타냅니다.
     int[] Unit_Count; //종류별 현재 Unit의 수를 나타냅니다.Summon_Unit() 함수를 호출할 때 마다 각 종류에 해당하는 값이 1씩 증가하며, Removed() 함수가 호출될 때 마다 각 Unit 종류에 해당하는 값이 1씩 감소합니다.
     float[] Unit_Cost;
     float[] Unit_Summon_Time; //플레이어가 선택한 Unit의 Cost와 Summon_Time을 저장합니다. Object Pooling 과정에서 저장합니다.
@@ -25,11 +25,18 @@ public class HeadQuarter : MonoBehaviour {
         {
             //현재 소환 가능한지 검사하고 불가능하면 각 경우별로 특수한 행동을 취하게 만들 것.
 
-            //가능하면 소환 큐에 넣는다.(취소는 불가능하므로 Unit Count + 1)
-            GameObject temp = GetComponent<SummonManager>().Enqueue_Unit(Unit_Template[ID]);
-            if (temp != null)
-                Unit_Count[ID]++;
-            return temp != null;
+
+
+            if (!GetComponent<SummonManager>().Is_Full())
+            {
+                //가능하면 소환 큐에 넣는다.(취소는 불가능하므로 Unit Count + 1)
+                GameObject temp = GetComponent<SummonManager>().Enqueue_Unit(Unit_Template[ID]);
+                if (temp != null)
+                    Unit_Count[ID]++;
+                return temp != null;
+            }
+            else
+                return false;
         }
         else
             return false;
