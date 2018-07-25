@@ -178,9 +178,8 @@ MonoBehaviour:
   Summon_Time: 3
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 2
-  Attack_Speed: 3
-  Ori_Attack_Speed: 3
-  Fixed_Attack_Speed: 3
+  Attack_Speed: 0.05
+  Attack_Num: 03000000000000000000000001000000000000000000000000000000000000000000000000000000
   Affect_Env: 2
   Effet_Env: 1
   Affect_Env_Freq: 3
