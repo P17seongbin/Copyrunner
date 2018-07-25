@@ -151,7 +151,7 @@ public class Unit : TimeManager
     {
         while(!Is_Dead)
         {
-            for (int i = 0; i < Attack_Num.Length; i++)
+            for (int i = 0; i < Attack_Num.Length; i++) //Attack_Num[i] 안의 수가 0일 때는 공격불가, 1, 2, 3일 때는 밑에 주석에 나온다.
             {
                 if (Attack_Num[i] == 3) //Ori든 Fixed든 상관없을 때
                 {
