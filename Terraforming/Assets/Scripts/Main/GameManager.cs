@@ -44,24 +44,24 @@ public class GameManager : MonoBehaviour {
         P2_HQ = P2_HQPivot.transform.Find("2P_HQ").gameObject;
 
         //(임시 코드) Unit을 저장한다.
-        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
-        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
-        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
-        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_2") as GameObject);
-
+        Set_CreatureList();
     }
 
     //각 플레이어가 선택한 크리쳐를 받아오는 함수, 
     //프로토타입에서는 정해진 Prefab에서 받아오지만 정식 버전에서는 다른 Scene에서 저장한 데이터를 받아오는 함수로 변경할 것.
     public void Set_CreatureList()
     {
-
+   
+        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
+        P1_CreatureList.Add(Resources.Load("Prefabs/Unit_E") as GameObject);
+        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_D") as GameObject);
+        P2_CreatureList.Add(Resources.Load("Prefabs/Unit_E") as GameObject);
     }
 
 	// Update is called once per frame
 	void Update () {
-        
-      
+
+        Debug.Log(Cur_Env);
         //Key가 눌렸는지 테스트하는 항목
         //Key를 꾹 누르고 있다고 여러번 소환되지 않으며, 키가 눌리는 순간에 단 한번 인식한다.
         if (Input.anyKeyDown)

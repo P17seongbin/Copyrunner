@@ -178,8 +178,8 @@ MonoBehaviour:
   Summon_Time: 3
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 2
-  Attack_Speed: 0.05
-  Attack_Num: 03000000000000000000000001000000000000000000000000000000000000000000000000000000
+  Unit_Type: 68
+  Attack_Speed: 0.5
   Affect_Env: 2
   Effet_Env: 1
   Affect_Env_Freq: 3
@@ -191,7 +191,6 @@ MonoBehaviour:
   Ori_Attack_Range: 1
   Fixed_Attack_Range: 0.8
   Team: 1
-  Form_Change: 0
   ID: 0
   Unit_FrameRate: 60
   Cur_Env: {x: 0, y: 0, z: 0}
