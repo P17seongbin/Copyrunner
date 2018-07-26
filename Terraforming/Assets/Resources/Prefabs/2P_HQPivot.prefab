@@ -123,6 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Team: -1
   MAX_UNIT_VARIATION: 3
+  Health: 0
+  Resource: 0
 --- !u!212 &212963521290230120
 SpriteRenderer:
   m_ObjectHideFlags: 1

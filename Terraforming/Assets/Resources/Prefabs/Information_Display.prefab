@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114940535515899032}
   - component: {fileID: 114818243736207004}
   m_Layer: 5
-  m_Name: Resource_UI
+  m_Name: Information_Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b2928cf2f3d83419c0a3beead71d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Resource_Text: {fileID: 0}
+  Information_Text: {fileID: 0}
+  Is_Resource_Display: 0
+  Is_HP_Display: 0
   player: 0
 --- !u!114 &114940535515899032
 MonoBehaviour:
@@ -74,7 +76,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Resource : 3.517043'
+  m_Text: 
 --- !u!222 &222615529591703306
 CanvasRenderer:
   m_ObjectHideFlags: 1
