@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeadQuarter : MonoBehaviour {
 
@@ -117,4 +118,9 @@ public class HeadQuarter : MonoBehaviour {
     {
         Resource = Resource + Time.deltaTime;
 	}
+
+    public float Get_Resource() //Resource_display.cs 에서 이 함수를 호출한다.
+    {
+        return Resource;
+    }
 }

@@ -154,8 +154,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Team: -1
+<<<<<<< HEAD
   Null_Queue: {fileID: 21300000, guid: dcf4afb2e8d951848a253605929c6c37, type: 3}
 --- !u!212 &212595533468816436
+=======
+  MAX_UNIT_VARIATION: 3
+  Health: 0
+  Resource: 0
+--- !u!212 &212963521290230120
+>>>>>>> origin/resource_display
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
