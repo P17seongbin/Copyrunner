@@ -178,10 +178,13 @@ MonoBehaviour:
   Summon_Time: 3
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 2
-  Effect_Env: 1
-  Affect_Env_Period: 0
+  Unit_Type: 68
+  Attack_Speed: 0.5
+  Affect_Env: 2
+  Effet_Env: 1
+  Affect_Env_Freq: 3
   Max_Effect_Env: 8
-  Min_Effect_Env: 6
+  Min_Effet_Env: 6
   Delta_Env: {x: 0, y: 0, z: -1}
   Hitbox: {fileID: 61296767572127942}
   Attack_Range: {fileID: 61255265008602750}
@@ -189,8 +192,6 @@ MonoBehaviour:
   Fixed_Attack_Range: 0.8
   Team: 1
   ID: 0
-  Unit_Type: 68
-  Attack_Speed: 0.5
   Unit_FrameRate: 60
   Cur_Env: {x: 0, y: 0, z: 0}
   ATK: 3
