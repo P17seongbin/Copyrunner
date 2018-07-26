@@ -111,16 +111,13 @@ public class Unit : TimeManager
             {
                 Delta_AttackTime = 0f;
                 Attack();
-
                 //특정 상황에서 공격 주기가 달라지는 Unit D의 공격 패턴을 구현하기 위해 특수한 조건을 삽입했습니다.
                 if (Unit_Type == 'D' || Unit_Type == 'd')
                 {
-                    if (6 <= Cur_Env.y && Cur_Env.y <= 8)
+                    if (6 <= Cur_Env[Effect_Env] && Cur_Env[Effect_Env] <= 8)
                     {
-                        Attack_Speed = Attack_Speed == 0.35f ? 0.15f : 0.35f;
+                        Invoke("Attack", 0.15f);
                     }
-                    else
-                        Attack_Speed = 0.5f;
                 }
 
             }
