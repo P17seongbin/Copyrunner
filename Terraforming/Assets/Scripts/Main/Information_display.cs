@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +40,7 @@ public class Information_display : MonoBehaviour
         else if (player == 2)
             Resource = GameObject.Find("2P_HQ").GetComponent<HeadQuarter>().Get_Resource();
 
-        Information_Text.text = "Resource : " + Resource.ToString();
+        Information_Text.text = "Resource : " + Math.Round(Resource,2).ToString();
     }
 
     private void Hp_Update()
