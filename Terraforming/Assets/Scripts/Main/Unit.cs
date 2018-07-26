@@ -12,7 +12,7 @@ public class Unit : TimeManager
     //public int[] Attack_Num; //단위공격주기가 지난 후 공격할 지 말지를 결정하는 배열입니다.
 
     public int Effect_Env; //각 유닛이 영향을 받는 환경의 종류를 나타낸다. 0(R), 1(G), 2(B) 중 하나의 값을 가진다. 
-    public float Affect_Env_Freq; ////각 유닛이 환경에 영향을 주는 주기 
+    public float Affect_Env_Period; ////각 유닛이 환경에 영향을 주는 주기 
     public float Max_Effect_Env, Min_Effect_Env; //각 유닛이 환경에 영향을 받을 때, 참조하는 조건
     public Vector3 Delta_Env;//각 유닛이 환경에 영향을 줄 때, 환경 변수값의 변화량
     public BoxCollider2D Hitbox, Attack_Range;//Unit의 피격 Hitbox와 공격범위 Hitbox입니다. Editor에서 할당받습니다
@@ -55,7 +55,7 @@ public class Unit : TimeManager
         Is_Dead = false;
         Is_Paused = false;
 
-        InvokeRepeating("Change_Env", Affect_Env_Freq, Affect_Env_Freq); //일정 주기마다 환경값을 바꾼다
+        InvokeRepeating("Change_Env", Affect_Env_Period, Affect_Env_Period); //일정 주기마다 환경값을 바꾼다
 
         Stat_Update(); //시작할 때 딱 한 번 스텟을 업데이트 시켜준다.
 
@@ -107,13 +107,13 @@ public class Unit : TimeManager
             Move();
 
             //마지막 공격으로부터 지난 시간이 공격 주기보다 크면 Attack을 1회 호출합니다.
-            if(Delta_AttackTime >= Attack_Speed)
+            if (Delta_AttackTime >= Attack_Speed)
             {
                 Delta_AttackTime = 0f;
                 Attack();
 
                 //특정 상황에서 공격 주기가 달라지는 Unit D의 공격 패턴을 구현하기 위해 특수한 조건을 삽입했습니다.
-                if(Unit_Type == 'D' || Unit_Type == 'd')
+                if (Unit_Type == 'D' || Unit_Type == 'd')
                 {
                     if (6 <= Cur_Env.y && Cur_Env.y <= 8)
                     {
@@ -122,13 +122,13 @@ public class Unit : TimeManager
                     else
                         Attack_Speed = 0.5f;
                 }
-                
+
             }
 
         }
     }
 
-    void Stat_Update() //update 함수에 의해 호출됨
+    private void Stat_Update() //update 함수에 의해 호출됨
     {
         if (Min_Effect_Env <= Cur_Env[Effect_Env] && Cur_Env[Effect_Env] <= Max_Effect_Env)  //유닛이 환경에 영향받는 조건을 만족할 때
         {
@@ -261,9 +261,9 @@ public class Unit : TimeManager
         }
     }
 
-    public void Hit(float damage)//피격
+    public void Hit(float ATK)//피격
     {
-        float true_damage = 10f * damage / (10f + DEF);
+        float true_damage = 10f * ATK / (10f + DEF);
         Health -= true_damage;
     }
 
@@ -291,6 +291,7 @@ public class Unit : TimeManager
             Is_Moveable = false;
             Is_Attack = false;
             Is_Dead = true;
+            HQ.GetComponent<HeadQuarter>().Unit_Dead(ID);
             gameObject.SetActive(false);
         }
     }
