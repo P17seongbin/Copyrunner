@@ -62,19 +62,19 @@ public class SpellManager : MonoBehaviour {
 
     void Spell_C() //Spell_ID는 3
     {
-        if (GetComponent<HeadQuarter>().Resource >= 3)
+        if (GetComponent<HeadQuarter>().Resource >= 3) //본진의 에너지가 스펠 코스트보다 높을 때
         {
-            GetComponent<HeadQuarter>().Resource -= 3;
+            GetComponent<HeadQuarter>().Resource -= 3; //본진의 에너지 자원 소모
 
             //아직 0은 Creature D, 1은 Creature E입니다.
             GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
 
-            if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
-                GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
+            if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true) //유닛이 환경의 영향을 받을 때
+                GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12; //스펠의 효과에 맞게 유닛의 HP 경감
             else
                 GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
 
-            if (GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+            if (GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true) //유닛이 환경의 영향을 받을 때
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
             else
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
