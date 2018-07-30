@@ -26,7 +26,7 @@ public class Unit : TimeManager
     private bool Is_Moveable; //현재 Unit.cs가 붙어 있는 Object가 움직일 수 있는지를 나타냅니다. 기본값은 True이며, 앞에 공격할 수 있는 다른 Object가 있거나 health가 0보다 작아지면 False로 변경됩니다.
     private bool Is_Attack; //현재 Unit.cs가 붙어 있는 Object가 공격하고 있는지를 나타냅니다. 기본값은 False이며, 지금 공격하고 있는 다른 Object가 있으면 True로 변경됩니다.
     private bool Is_Dead; //현재 Unit.cs가 붙어 있는 Object가 죽었는지를 나타냅니다. 기본값은 False이며, 이 Unit이 죽으면 True로 변경됩니다.
-    private bool Is_Fixed; //현재 Unit.cs가 붙어 있는 Object가 환경에 의해 변화되었는지를 나타냅니다. Ori 상태일 경우 False이며, Fixed 상태일 경우 True입니다.
+    public bool Is_Fixed; //현재 Unit.cs가 붙어 있는 Object가 환경에 의해 변화되었는지를 나타냅니다. Ori 상태일 경우 False이며, Fixed 상태일 경우 True입니다.
     private bool Is_Paused = false;
     private GameObject HQ; //Unit을 소환한 HeadQuarter GameObject를 저장합니다.
     private GameManager GM_Script; //GameManager Object에 붙어있는 GamemManager.cs를 나타냅니다.
