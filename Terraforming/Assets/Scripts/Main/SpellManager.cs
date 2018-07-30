@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour {
 
+    public int Team;
     bool Is_Toggled;
     int Spell_ID, Attack_Spell_ID;
     GameManager GM_Script;
@@ -48,10 +49,13 @@ public class SpellManager : MonoBehaviour {
             if (Spell_ID != 0) //나중에 주문이 여러개가 된다면 변경할 것입니다.
             {
                 Spell_C();
+                Debug.Log("Spell Casted!");
+                Spell_UnLoad();
             }
             if (Attack_Spell_ID != 0)
             {
                 Attack_Spell_A();
+                Spell_UnLoad();
             }
         }
 	}
@@ -61,15 +65,15 @@ public class SpellManager : MonoBehaviour {
         //아직 0은 Creature D, 1은 Creature E입니다.
         GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
 
-        if (transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
-            transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
+        if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+            GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
         else
-            transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
+            GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
 
-        if (transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
-            transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
+        if (GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+            GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
         else
-            transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
+            GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
     }
 
     void Attack_Spell_A()

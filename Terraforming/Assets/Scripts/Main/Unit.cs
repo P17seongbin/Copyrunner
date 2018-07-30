@@ -288,6 +288,7 @@ public class Unit : TimeManager
     {
         if (Health <= 0) //Unit이 죽었는지를 판정합니다.
         {
+            //HQ.GetComponent<HeadQuarter>().Unit_Dead(); //이 함수의 파라미터에 Unit의 ID가 들어가야 하므로 일단은 임시보류
             Is_Moveable = false;
             Is_Attack = false;
             Is_Dead = true;

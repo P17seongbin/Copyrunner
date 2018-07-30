@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114189657320257424}
   - component: {fileID: 61400492362855842}
   - component: {fileID: 114024719917347038}
+  - component: {fileID: 114246416881973670}
   m_Layer: 0
   m_Name: 2P_HQ
   m_TagString: HQ
@@ -123,6 +124,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Team: -1
   MAX_UNIT_VARIATION: 3
+  Health: 0
+  Resource: 0
+--- !u!114 &114246416881973670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1333144997704800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbc09532b7532b4abda01f0a538568c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Team: -1
 --- !u!212 &212963521290230120
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -166,5 +181,5 @@ SpriteRenderer:
   m_Size: {x: 2, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0

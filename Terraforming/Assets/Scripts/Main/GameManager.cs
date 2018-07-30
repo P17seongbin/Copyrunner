@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public Camera MainCamera;
 
-    private Vector3 Cur_Env;
+    [SerializeField] private Vector3 Cur_Env;
     [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.
     private float Init_R=5f, Init_G=5f, Init_B=5f;
     [SerializeField] private Vector3 Max_Env, Min_Env;//최대 환경변수 및 최소 환경변수를 나타냅니다, Inspector에서 값을 입력받습니다. 
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
+                P1_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 1 주문 3 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
@@ -120,6 +121,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
             {
+                P2_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 2 주문 3 시전
             }
         }
