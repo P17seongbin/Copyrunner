@@ -7,7 +7,7 @@ public class SpellManager : MonoBehaviour {
     bool Is_Toggled;
     int Spell_ID, Attack_Spell_ID;
 
-    public void Spell_Load(bool Is_AttackSpell, int Spell_ID)
+    public void Spell_Load(bool Is_AttackSpell, int _Spell_ID)
     {
 
     }
@@ -28,4 +28,20 @@ public class SpellManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void Spell_C()
+    {
+        
+
+        if(transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+            transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
+        else
+            transform.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
+
+        if (transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+            transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
+        else
+            transform.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
+
+    }
 }
