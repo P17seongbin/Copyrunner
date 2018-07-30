@@ -1187,8 +1187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 519420031}
-  RGBImage: {fileID: 0}
-  RGBText: {fileID: 0}
+  RGBImage: {fileID: 1417870955}
+  RGBText: {fileID: 1241817512}
   Init_R: 5
   Init_G: 7
   Init_B: 5
