@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
             {
+                P1_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 1 주문 1 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
             {
+                P2_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 2 주문 1 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
