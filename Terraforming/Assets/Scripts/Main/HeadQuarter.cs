@@ -11,7 +11,7 @@ public class HeadQuarter : MonoBehaviour {
     bool Is_Paused; //현재 게임이 일시정지 되었는지를 나타냅니다.Default값은 False입니다.
 
     [SerializeField] float Health; //HQ의 현재 체력을 나타냅니다.
-    [SerializeField] float Resource; //HQ가 현재 소유한 자원의 수를 나타냅니다.
+    public float Resource; //HQ가 현재 소유한 자원의 수를 나타냅니다.
 
     int[] Unit_Count; //종류별 현재 Unit의 수를 나타냅니다.Summon_Unit() 함수를 호출할 때 마다 각 종류에 해당하는 값이 1씩 증가하며, Removed() 함수가 호출될 때 마다 각 Unit 종류에 해당하는 값이 1씩 감소합니다.
     float[] Unit_Cost;

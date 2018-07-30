@@ -62,18 +62,23 @@ public class SpellManager : MonoBehaviour {
 
     void Spell_C() //Spell_ID는 3
     {
-        //아직 0은 Creature D, 1은 Creature E입니다.
-        GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
+        if (GetComponent<HeadQuarter>().Resource >= 3)
+        {
+            GetComponent<HeadQuarter>().Resource -= 3;
 
-        if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
-            GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
-        else
-            GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
+            //아직 0은 Creature D, 1은 Creature E입니다.
+            GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
 
-        if (GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
-            GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
-        else
-            GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
+            if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+                GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12;
+            else
+                GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 2;
+
+            if (GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true)
+                GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
+            else
+                GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
+        }
     }
 
     void Attack_Spell_A()
