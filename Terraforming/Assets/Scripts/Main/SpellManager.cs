@@ -10,6 +10,8 @@ public class SpellManager : MonoBehaviour {
 
     private float Spell_C_FinishedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
 
+    public GameObject Laser_Spell;
+    GameObject LSpell;
     GameManager GM_Script;
     HeadQuarter HQ_Script; //HeadQuarter Object 안에 SpellManager가 들어갑니다.
 
@@ -62,6 +64,7 @@ public class SpellManager : MonoBehaviour {
             }
             if (Attack_Spell_ID != 0)
             {
+
                 Attack_Spell_A();
             }
 
@@ -117,8 +120,9 @@ public class SpellManager : MonoBehaviour {
         }
     }
 
-    void Attack_Spell_A()
+    void Attack_Spell_A() //Spell_ID는 4
     {
-
+        LSpell = Instantiate(Laser_Spell) as GameObject;
+        LSpell.GetComponent<AttackSpell_A>().Team = Team;
     }
 }

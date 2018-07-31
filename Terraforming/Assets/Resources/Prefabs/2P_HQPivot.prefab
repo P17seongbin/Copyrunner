@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Team: -1
+  Laser_Spell: {fileID: 1297289270104848, guid: 3ba116f4b0a8d1141bf028eec29d193a,
+    type: 2}
 --- !u!212 &212707881825512772
 SpriteRenderer:
   m_ObjectHideFlags: 1
