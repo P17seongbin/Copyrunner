@@ -166,13 +166,10 @@ MonoBehaviour:
   Summon_Time: 3
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 4
-  Unit_Type: 69
-  Attack_Speed: 1
-  Affect_Env: 1
-  Effet_Env: 2
-  Affect_Env_Freq: 3
+  Effect_Env: 0
+  Affect_Env_Period: 0
   Max_Effect_Env: 6
-  Min_Effet_Env: 3
+  Min_Effect_Env: 0
   Delta_Env: {x: 0, y: 0, z: -1}
   Hitbox: {fileID: 61814085640388996}
   Attack_Range: {fileID: 61851258545270120}
@@ -180,6 +177,9 @@ MonoBehaviour:
   Fixed_Attack_Range: 4
   Team: -1
   ID: 0
+  Is_Fixed: 0
+  Unit_Type: 69
+  Attack_Speed: 1
   Unit_FrameRate: 60
   Cur_Env: {x: 0, y: 0, z: 0}
   ATK: 5
@@ -235,7 +235,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dc659891f562c1144adfea31afb1f8f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df3fc21894182814ba71bfd91e0912fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 114190454646835942}
   - component: {fileID: 61972942659352258}
   - component: {fileID: 114877316790675098}
+  - component: {fileID: 114600574359200996}
   m_Layer: 0
   m_Name: 1P_HQ
   m_TagString: HQ
@@ -142,6 +143,18 @@ MonoBehaviour:
   MAX_UNIT_VARIATION: 3
   Health: 100
   Resource: 0
+--- !u!114 &114600574359200996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1796367426728698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbc09532b7532b4abda01f0a538568c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Team: 1
 --- !u!114 &114877316790675098
 MonoBehaviour:
   m_ObjectHideFlags: 1

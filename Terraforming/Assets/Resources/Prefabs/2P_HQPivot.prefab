@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 114138270997314760}
   - component: {fileID: 61251728036597714}
   - component: {fileID: 114814532179263368}
+  - component: {fileID: 114984600848508308}
   m_Layer: 0
   m_Name: 2P_HQ
   m_TagString: HQ
@@ -155,6 +156,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Team: -1
   Null_Queue: {fileID: 21300000, guid: dcf4afb2e8d951848a253605929c6c37, type: 3}
+--- !u!114 &114984600848508308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631900581204644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbc09532b7532b4abda01f0a538568c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Team: -1
 --- !u!212 &212707881825512772
 SpriteRenderer:
   m_ObjectHideFlags: 1
