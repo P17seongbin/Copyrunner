@@ -26,11 +26,12 @@ public class AttackSpell_A : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.S))
             {
                 Is_Shooting = true;
+                Laser_Beam();
                 //레이저를 1초간 쏜다.
             }
             else if (!Is_Shooting)
             {
-                transform.position += new Vector3(Input.GetAxis("Horizontal1"), 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(Input.GetAxis("Horizontal1"), 0, 0) * Time.deltaTime * Speed;
             }
         }
         else //Team이 -1이라면
@@ -38,17 +39,24 @@ public class AttackSpell_A : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.K))
             {
                 Is_Shooting = true;
+                Laser_Beam();
                 //레이저를 1초간 쏜다.
             }
             else if (!Is_Shooting)
             {
-                transform.position += new Vector3(Input.GetAxis("Horizontal2"), 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(Input.GetAxis("Horizontal2"), 0, 0) * Time.deltaTime * Speed;
             }
         }
     }
 
     void Laser_Beam()
     {
+        //레이저를 발사하는 이펙트를 만들어야 한다 여기서
+        Invoke("End_Beam", 1.0f);
+    }
 
+    void End_Beam()
+    {
+        Destroy(gameObject);
     }
 }

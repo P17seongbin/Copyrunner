@@ -7,8 +7,10 @@ public class SpellManager : MonoBehaviour {
     public int Team;
     bool Is_Toggled;
     int Spell_ID, Attack_Spell_ID;
+    bool Is_Attacking;
+    int How_Many_Lasers;
 
-    private float Spell_C_FinishedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
+    private float[] Spell_FinishedTime = new float[5]; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
 
     public GameObject Laser_Spell;
     GameObject LSpell;
@@ -38,7 +40,11 @@ public class SpellManager : MonoBehaviour {
     {
         // HQ_Script.Toggle_Is_Casting();
         if (Is_Toggled) //안전장치
+        {
             Is_Toggled = false;
+            Spell_ID = 0;
+            Attack_Spell_ID = 0;
+        }
     }
 
     // Use this for initialization
@@ -49,7 +55,13 @@ public class SpellManager : MonoBehaviour {
         Is_Toggled = false; //현재 주문을 사용하고 있는지를 나타내는 변수입니다.
         Spell_ID = 0; //Spell_ID의 값에 따라 시전되는 Spell이 달라집니다. 기본값인 0의 의미는 Spell이 시전되지 않는다라는 의미입니다.
         Attack_Spell_ID = 0; //Attack_Spell_ID의 값에 따라 시전되는 Attack Spell이 달라집니다. 기본값인 0의 의미는 Spell이 시전되지 않는다라는 의미입니다.
-        
+        Is_Attacking = false;
+        How_Many_Lasers = 0;
+
+        for (int i = 0; i < 5; i++) //초기화
+        {
+            Spell_FinishedTime[i] = -30f;
+        }
     }
 
 	// Update is called once per frame
@@ -57,18 +69,40 @@ public class SpellManager : MonoBehaviour {
 
         if(Is_Toggled) //주문이 시전되면
         {
-            if (Spell_ID != 0 && Time.fixedTime - Spell_C_FinishedTime > 3f) //나중에 주문이 여러개가 된다면 변경할 것입니다.
+            if (Spell_ID != 0 && Time.fixedTime - Spell_FinishedTime[3] > 3f) //나중에 주문이 여러개가 된다면 변경할 것입니다.
             {                                                                //현재 시간과 스펠 C가 끝난 시간을 비교해서 쿨타임보다 많은 시간이 지났을 경우 실행합니다.
                 Spell_C();
                 Debug.Log("Spell Casted!");
             }
-            if (Attack_Spell_ID != 0)
+            if (Attack_Spell_ID != 0 && Time.fixedTime - Spell_FinishedTime[4] > 29f)
             {
-
-                Attack_Spell_A();
+                if(!Is_Attacking) //안전장치
+                {
+                    Attack_Spell_A();
+                    Is_Attacking = true;
+                }
             }
 
             Spell_UnLoad();
+        }
+
+        if(Is_Attacking) //쿨타임을 체크하기 위해서
+        {
+            How_Many_Lasers = GameObject.FindGameObjectsWithTag("Laser").Length;
+
+            if (How_Many_Lasers == 0) //레이저가 없다면
+            {
+                Is_Attacking = false;
+                Spell_FinishedTime[4] = Time.fixedTime;
+            }
+            else if (How_Many_Lasers == 1)
+            {
+                if (GameObject.FindGameObjectsWithTag("Laser")[0].GetComponent<AttackSpell_A>().Team != Team) //레이저 우리팀의 것이 아니라면
+                {
+                    Is_Attacking = false;
+                    Spell_FinishedTime[4] = Time.fixedTime;
+                }
+            }
         }
 	}
 
@@ -116,7 +150,7 @@ public class SpellManager : MonoBehaviour {
             else
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
                 */
-            Spell_C_FinishedTime = Time.fixedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
+            Spell_FinishedTime[3] = Time.fixedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
         }
     }
 
