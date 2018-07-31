@@ -12,23 +12,28 @@ public class SpellManager : MonoBehaviour {
 
     public void Spell_Load(bool Is_AttackSpell, int _Spell_ID)
     {
-      //  HQ_Script.Toggle_Is_Casting();
-        Is_Toggled = true;
+        //HQ_Script.Toggle_Is_Casting();
 
-        if (Is_AttackSpell)
+        if (!Is_Toggled) //안전장치
         {
-            Attack_Spell_ID = _Spell_ID;
-        }
-        else
-        {
-            Spell_ID = _Spell_ID;
+            Is_Toggled = true;
+
+            if (Is_AttackSpell)
+            {
+                Attack_Spell_ID = _Spell_ID;
+            }
+            else
+            {
+                Spell_ID = _Spell_ID;
+            }
         }
     }
 
     private void Spell_UnLoad()
     {
-       // HQ_Script.Toggle_Is_Casting();
-        Is_Toggled = false;
+        // HQ_Script.Toggle_Is_Casting();
+        if (Is_Toggled) //안전장치
+            Is_Toggled = false;
     }
 
     // Use this for initialization
