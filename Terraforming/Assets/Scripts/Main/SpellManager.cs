@@ -7,6 +7,9 @@ public class SpellManager : MonoBehaviour {
     public int Team;
     bool Is_Toggled;
     int Spell_ID, Attack_Spell_ID;
+
+    private float Spell_C_FinishedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
+
     GameManager GM_Script;
     HeadQuarter HQ_Script; //HeadQuarter Object 안에 SpellManager가 들어갑니다.
 
@@ -44,6 +47,7 @@ public class SpellManager : MonoBehaviour {
         Is_Toggled = false; //현재 주문을 사용하고 있는지를 나타내는 변수입니다.
         Spell_ID = 0; //Spell_ID의 값에 따라 시전되는 Spell이 달라집니다. 기본값인 0의 의미는 Spell이 시전되지 않는다라는 의미입니다.
         Attack_Spell_ID = 0; //Attack_Spell_ID의 값에 따라 시전되는 Attack Spell이 달라집니다. 기본값인 0의 의미는 Spell이 시전되지 않는다라는 의미입니다.
+        
     }
 
 	// Update is called once per frame
@@ -51,17 +55,17 @@ public class SpellManager : MonoBehaviour {
 
         if(Is_Toggled) //주문이 시전되면
         {
-            if (Spell_ID != 0) //나중에 주문이 여러개가 된다면 변경할 것입니다.
-            {
+            if (Spell_ID != 0 && Time.fixedTime - Spell_C_FinishedTime > 3f) //나중에 주문이 여러개가 된다면 변경할 것입니다.
+            {                                                                //현재 시간과 스펠 C가 끝난 시간을 비교해서 쿨타임보다 많은 시간이 지났을 경우 실행합니다.
                 Spell_C();
                 Debug.Log("Spell Casted!");
-                Spell_UnLoad();
             }
             if (Attack_Spell_ID != 0)
             {
                 Attack_Spell_A();
-                Spell_UnLoad();
             }
+
+            Spell_UnLoad();
         }
 	}
 
@@ -109,6 +113,7 @@ public class SpellManager : MonoBehaviour {
             else
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
                 */
+            Spell_C_FinishedTime = Time.fixedTime; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
         }
     }
 
