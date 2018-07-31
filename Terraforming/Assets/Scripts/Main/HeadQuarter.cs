@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class HeadQuarter : MonoBehaviour {
 
+    GameManager GM_Script;
+
     public int Team;
     public int MAX_UNIT_VARIATION=2; //플레이어가 가질 수 있는 유닛의 총 개수를 의미합니다, Defalut값은 3입니다.
+    public Text WinText;
 
     bool Is_Paused; //현재 게임이 일시정지 되었는지를 나타냅니다.Default값은 False입니다.
 
@@ -68,7 +71,10 @@ public class HeadQuarter : MonoBehaviour {
     public void Hit(float damage)
     {
         //HQ는 크리쳐의 공격력만큼 그대로 데미지를 입는다
-        Health = Health - damage;
+        if (Health > damage)
+            Health = Health - damage;
+        else
+            Health = 0;    //HeadQuarter 의 체력이 음수가 되는 것을 방지
     }
     public float HQ_Health()
     {
@@ -116,10 +122,15 @@ public class HeadQuarter : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Resource = Resource + Time.deltaTime;
-	}
+        
+            Resource = Resource + Time.deltaTime;
 
-    public float Get_Resource() //Resource_display.cs 에서 이 함수를 호출한다.
+       if (Health == 0)
+            GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
+
+    }
+
+    public float Get_Resource() //Information_display.cs 에서 이 함수를 호출한다.
     {
         return Resource;
     }

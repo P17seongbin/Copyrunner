@@ -10,7 +10,7 @@ public class SpellManager : MonoBehaviour {
     bool Is_Attacking;
     int How_Many_Lasers;
 
-    private float[] Spell_FinishedTime = new float[5]; //마지막으로 스펠 C가 끝난 시간을 저장합니다.
+    private float[] Spell_FinishedTime = new float[5]; //마지막으로 스펠이 끝난 시간을 저장합니다.
 
     public GameObject Laser_Spell;
     GameObject LSpell;
