@@ -314,5 +314,8 @@ public class Unit : TimeManager
             Enemies.Remove(Enemy);
     }
 
-
+    public char Get_Type()
+    {
+        return Unit_Type;
+    }
 }

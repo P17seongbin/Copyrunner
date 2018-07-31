@@ -66,9 +66,34 @@ public class SpellManager : MonoBehaviour {
         {
             GetComponent<HeadQuarter>().Resource -= 3; //본진의 에너지 자원 소모
 
-            //아직 0은 Creature D, 1은 Creature E입니다.
-            GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
 
+            GameObject[] Unit_List = GameObject.FindGameObjectsWithTag("Unit");//필드위에 있는 모든 유닛을 받아옵니다.
+
+            int DCount=0, ECount=0;
+            foreach (GameObject Unit in Unit_List)//특정 배열(리스트)컨테이너 내 모든 원소를 순회하는 for문의 변종
+            {
+                if (Unit.activeSelf)
+                {
+                    Unit Unit_Script = Unit.GetComponent<Unit>();//여러번 참조할 Unit Component를 저장해서 약간 최적화
+                    char Unit_Type = Unit_Script.Get_Type();//Get_Type()함수를 새로 만들고, 그걸로 Unit의 Type를 받아옵니다.
+
+                    if (Unit_Type == 'D')
+                    {
+                        DCount++;
+                        Unit_Script.Health -= Unit_Script.Is_Fixed ? 12 : 2;//삼항연산자, (조건문) ? (True일때 값) : (False일떄 값 입니다.
+                    }
+                    else if (Unit_Type == 'E')
+                    {
+                        ECount++;
+                        Unit_Script.Health -= Unit_Script.Is_Fixed ? 15 : 3;
+                    }
+                }
+            }
+            GM_Script.Change_RGBValue(new Vector3(0, DCount, ECount));
+
+            //아직 0은 Creature D, 1은 Creature E입니다.
+            //GM_Script.Change_RGBValue(new Vector3(0, HQ_Script.Get_Unit_Count()[0], HQ_Script.Get_Unit_Count()[1] * 2));
+            /*
             if (GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Is_Fixed == true) //유닛이 환경의 영향을 받을 때
                 GameObject.Find("Unit_D(Clone)(Clone)").GetComponent<Unit>().Health -= 12; //스펠의 효과에 맞게 유닛의 HP 경감
             else
@@ -78,6 +103,7 @@ public class SpellManager : MonoBehaviour {
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 15;
             else
                 GameObject.Find("Unit_E(Clone)(Clone)").GetComponent<Unit>().Health -= 3;
+                */
         }
     }
 
