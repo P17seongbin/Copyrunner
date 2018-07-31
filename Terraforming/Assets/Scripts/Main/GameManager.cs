@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
     {
         P1_CreatureList = new List<GameObject>();
         P2_CreatureList = new List<GameObject>();
-
+        
         Cur_Env = new Vector3(Init_R, Init_G, Init_B);
         Cur_Env = Limit_RGBValue(Cur_Env);
 
@@ -143,8 +143,6 @@ public class GameManager : MonoBehaviour {
 
     public void Destroyed(int Team)
     {
-       
-  
         //Team 승리! 
         //모든 Unit의 Timescale을 0으로 변경
         //혹은 Unit 고유의 승리 / 패배 애니메이션을 재생 

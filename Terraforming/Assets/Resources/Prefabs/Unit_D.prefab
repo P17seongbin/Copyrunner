@@ -179,7 +179,7 @@ MonoBehaviour:
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 2
   Effect_Env: 1
-  Affect_Env_Period: 0
+  Affect_Env_Period: 1
   Max_Effect_Env: 8
   Min_Effect_Env: 6
   Delta_Env: {x: 0, y: 0, z: -1}

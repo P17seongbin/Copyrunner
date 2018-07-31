@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class Information_display : MonoBehaviour
 {
     public Text Information_Text;
+    public Text WinText;
 
     private float Resource;
     private float HP;
@@ -51,6 +52,18 @@ public class Information_display : MonoBehaviour
             HP = GameObject.Find("2P_HQ").GetComponent<HeadQuarter>().HQ_Health();
 
         Information_Text.text = "HP : " + HP.ToString();
+    }
+
+    public void Result_Display(int Team)
+    {
+        int TextNumber;
+
+        if (Team == 1)
+            TextNumber = 2;
+        else
+            TextNumber = 1;
+
+        WinText.text = "Player " + TextNumber.ToString() + " win!";
     }
 
 }
