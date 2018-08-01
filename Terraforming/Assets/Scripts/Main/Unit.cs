@@ -263,6 +263,10 @@ public class Unit : TimeManager
         float true_damage = 10f * ATK / (10f + DEF);
         Health -= true_damage;
     }
+    public void Pierce_Hit(float ATK)//고정데미지
+    {
+        Health -= ATK;
+    }
 
     public float Get_Cost()
     {

@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour {
         float MainCam_Aspect = MainCamera.aspect;
         Cam_Height = MainCamera.orthographicSize;
         Cam_Width = Cam_Height * MainCam_Aspect;
-        Debug.Log(Cam_Height);
-        Debug.Log(Cam_Width);
 
         //HQ가 있어야 할 위치에 HQ를 배치한다.
         GameObject P1_HQPivot = Instantiate(Resources.Load("Prefabs/1P_HQPivot", typeof(GameObject))) as GameObject;
@@ -100,8 +98,7 @@ public class GameManager : MonoBehaviour {
 
         RGBImage.color = new Vector4(Cur_Env[0] / Max_Env[0], Cur_Env[1] / Max_Env[1], Cur_Env[2] / Max_Env[2], 1);
         RGBText.text = "R: " + Cur_Env[0] + " G: " + Cur_Env[1] + " B: " + Cur_Env[2];
-
-        Debug.Log(Cur_Env);
+       
         //Key가 눌렸는지 테스트하는 항목
         //Key를 꾹 누르고 있다고 여러번 소환되지 않으며, 키가 눌리는 순간에 단 한번 인식한다.
         if (Input.anyKeyDown)
@@ -234,7 +231,7 @@ public class GameManager : MonoBehaviour {
         float G = Mathf.Min(Mathf.Max(Min_Env.y, RGB.y), Max_Env.y);
         float B = Mathf.Min(Mathf.Max(Min_Env.z, RGB.z), Max_Env.z);
         return new Vector3(R, G, B);
-        Set_BG();
+
     }
 
 

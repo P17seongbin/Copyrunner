@@ -114,8 +114,15 @@ public class HeadQuarter : MonoBehaviour {
         Unit_Template = GameObject.Find("GameManager").GetComponent<GameManager>().Get_UnitLIst(Team, MAX_UNIT_VARIATION);
         for (int i = 0; i < MAX_UNIT_VARIATION; i++)//초기화
         {
-            Unit_Count[i] = 0;
-            Unit_Cost[i] = Unit_Template[i].GetComponent<Unit>().Cost;
+            try
+            {
+                Unit_Count[i] = 0;
+                Unit_Cost[i] = Unit_Template[i].GetComponent<Unit>().Cost;
+            }
+            catch
+            {
+                Debug.Log("Team " + (Team == 1 ? 1 : 2).ToString() + " Selected Less than 3 creatures!");
+            }
         }
     }
 	
