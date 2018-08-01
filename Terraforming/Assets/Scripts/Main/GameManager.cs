@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour {
 
     private List<GameObject> P1_CreatureList, P2_CreatureList;
 
+    private GameObject[] BG;
+
+    private int Env_L=2, Env_M=7;//배경이 바뀌는 RGB값의 기준
+
 
     // Use this for initialization
     void Start()
@@ -48,8 +52,38 @@ public class GameManager : MonoBehaviour {
 
         //(임시 코드) Unit을 저장한다.
         Set_CreatureList();
-    }
 
+        //배경화면을 설정한다.
+        BG = new GameObject[3];
+        BG[0] = GameObject.Find("BackGround_G");
+        BG[1] = GameObject.Find("BackGround_R");
+        BG[2] = GameObject.Find("BackGround_B");
+        Set_BG();
+
+    }
+    private void Set_BG()
+    {
+        int i = 0;
+        char[] type = { 'G','R','B' };
+        //순서대로 RGB
+        foreach(char t in type)
+        {
+
+            if (0 <= Cur_Env[i] && Cur_Env[i] <= Env_L)
+            {
+                BG[i].GetComponent<Image>().sprite = Resources.Load("BG_Image/BackGround_" + t + "_L", typeof(Sprite)) as Sprite;
+            }
+            else if (Env_L < Cur_Env[i] && Cur_Env[i] <= Env_M)
+            {
+                BG[i].GetComponent<Image>().sprite = Resources.Load("BG_Image/BackGround_" + t + "_M", typeof(Sprite)) as Sprite;
+            }
+            else
+            {
+                BG[i].GetComponent<Image>().sprite = Resources.Load("BG_Image/BackGround_" + t + "_H", typeof(Sprite)) as Sprite;
+            }
+            i++;
+        }
+    }
     //각 플레이어가 선택한 크리쳐를 받아오는 함수, 
     //프로토타입에서는 정해진 Prefab에서 받아오지만 정식 버전에서는 다른 Scene에서 저장한 데이터를 받아오는 함수로 변경할 것.
     public void Set_CreatureList()
@@ -186,11 +220,13 @@ public class GameManager : MonoBehaviour {
         Vector3 Limit_RGB = Limit_RGBValue(RGB);
         //Vector3형은 x,y,z를 하나씩 바꿀 수 없기 때문에 새로 만든 RGB 값을 할당해준다.
         Cur_Env = Limit_RGB;
+        Set_BG();
     }
     public void Change_RGBValue(Vector3 dRGB)
     {
         Vector3 Res = Cur_Env + dRGB;
         Cur_Env = Limit_RGBValue(Res);
+        Set_BG();
     }
     private Vector3 Limit_RGBValue(Vector3 RGB)
     {
@@ -198,5 +234,8 @@ public class GameManager : MonoBehaviour {
         float G = Mathf.Min(Mathf.Max(Min_Env.y, RGB.y), Max_Env.y);
         float B = Mathf.Min(Mathf.Max(Min_Env.z, RGB.z), Max_Env.z);
         return new Vector3(R, G, B);
+        Set_BG();
     }
+
+
 }

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61296767572127942}
   - component: {fileID: 114481418945297012}
   - component: {fileID: 50482371571857828}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit_D
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4520086049756324}
   - component: {fileID: 61255265008602750}
   - component: {fileID: 114158234963318794}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit_AttackBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,7 +20,6 @@ public class AttackSpell_A : MonoBehaviour {
 	void Update () {
 
         //Key가 눌렸는지 테스트하는 항목
-        //Key를 꾹 누르고 있으면 계속 인식한다.
         if (Team == 1) //Team이 1이라면
         {
             if (Input.GetKeyDown(KeyCode.S))

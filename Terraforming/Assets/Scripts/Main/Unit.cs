@@ -290,7 +290,6 @@ public class Unit : TimeManager
             Is_Dead = true;
             HQ.GetComponent<HeadQuarter>().Unit_Dead(ID);
             gameObject.SetActive(false);
-            Destroy(gameObject);
         }
     }
     private void Get_RGBValue()

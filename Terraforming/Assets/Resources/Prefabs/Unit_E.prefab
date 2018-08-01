@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4429260351889502}
   - component: {fileID: 61851258545270120}
   - component: {fileID: 114909045432648856}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit_AttackBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 61814085640388996}
   - component: {fileID: 114669379110951984}
   - component: {fileID: 50740399977884770}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit_E
   m_TagString: Unit
   m_Icon: {fileID: 0}
