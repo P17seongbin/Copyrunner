@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour {
 
         RGBImage.color = new Vector4(Cur_Env[0] / Max_Env[0], Cur_Env[1] / Max_Env[1], Cur_Env[2] / Max_Env[2], 1);
         RGBText.text = "R: " + Cur_Env[0] + " G: " + Cur_Env[1] + " B: " + Cur_Env[2];
-       
+
         //Key가 눌렸는지 테스트하는 항목
         //Key를 꾹 누르고 있다고 여러번 소환되지 않으며, 키가 눌리는 순간에 단 한번 인식한다.
         if (Input.anyKeyDown)

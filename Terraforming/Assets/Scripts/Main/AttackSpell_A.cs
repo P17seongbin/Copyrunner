@@ -8,11 +8,28 @@ public class AttackSpell_A : MonoBehaviour {
     public int Team;
 
     private bool Is_Shooting;
+    private SpriteRenderer This_Renderer;
     List<GameObject> Ranged_Target = new List<GameObject>();//타격 범위 안에 들어온 오브젝트 리스트.
 
-	// Use this for initialization
-	void Start () {
+    //레이저 포의 이미지입니다.
+    private List<Sprite> LaserFrame;
+    private int LaserFrameNumber = 3;
+    // Use this for initialization
+    void Start () {
 
+        LaserFrame = new List<Sprite>();
+        This_Renderer = GetComponent<SpriteRenderer>();
+        try
+        {
+            for (int i = 1; i <= LaserFrameNumber; i++)
+            {
+                LaserFrame.Add(Resources.Load<Sprite>("Spell_Image/Laser/Laser_" + i.ToString()));
+            }
+        }
+        catch
+        {
+            Debug.Log("Laser Sprite is Missing!");
+        }
         Is_Shooting = false;
 
 	}
@@ -21,6 +38,9 @@ public class AttackSpell_A : MonoBehaviour {
 	void Update () {
 
         //Key가 눌렸는지 테스트하는 항목
+
+        //Key를 꾹 누르고 있으면 계속 인식한다.
+
         if (Team == 1) //Team이 1이라면
         {
             if (Input.GetKeyDown(KeyCode.S))
@@ -30,7 +50,7 @@ public class AttackSpell_A : MonoBehaviour {
             }
             else if (!Is_Shooting)
             {
-                transform.position += new Vector3(Input.GetAxis("Horizontal1"), 0, 0) * Time.deltaTime * Speed;
+                transform.position += new Vector3(Input.GetAxis("P1_Spell"), 0, 0) * Time.deltaTime * Speed;
             }
         }
         else //Team이 -1이라면
@@ -42,13 +62,14 @@ public class AttackSpell_A : MonoBehaviour {
             }
             else if (!Is_Shooting)
             {
-                transform.position += new Vector3(Input.GetAxis("Horizontal2"), 0, 0) * Time.deltaTime * Speed;
+                transform.position += new Vector3(Input.GetAxis("P2_Spell"), 0, 0) * Time.deltaTime * Speed;
             }
         }
     }
 
     void Laser_Beam()
     {
+
         if (!Is_Shooting)
         {
             Is_Shooting = true;
@@ -61,13 +82,28 @@ public class AttackSpell_A : MonoBehaviour {
                 }
             //레이저를 발사하는 이펙트를 만들어야 한다 여기서
 
-            Invoke("End_Beam", 1.0f);
+            StartCoroutine(Beam_Anim());
         }
+    }
+    IEnumerator Beam_Anim()//사망 애니메이션 및 비활성화 처리
+    {
+            for (int i = 0; i < LaserFrameNumber; i++)
+            {
+                This_Renderer.sprite = LaserFrame[i];
+                yield return new WaitForSeconds(0.5f / LaserFrameNumber);
+            }
+        for (int i = 0; i < LaserFrameNumber; i++)
+        {
+            This_Renderer.sprite = LaserFrame[i];
+            yield return new WaitForSeconds(0.5f / LaserFrameNumber);
+        }
+        End_Beam();
     }
     void End_Beam()
     {
         Destroy(gameObject);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!Is_Shooting)
@@ -92,4 +128,5 @@ public class AttackSpell_A : MonoBehaviour {
             Ranged_Target.Remove(collision.gameObject);
         }
     }
+
 }

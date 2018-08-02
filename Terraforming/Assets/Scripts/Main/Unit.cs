@@ -365,6 +365,7 @@ public class Unit : TimeManager
             Is_Attack = false;
             Is_Dead = true;
             HQ.GetComponent<HeadQuarter>().Unit_Dead(ID);
+
             StopCoroutine(Anim);
 
             StartCoroutine(Dead_Anim());

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 using UnityEngine.SceneManagement;
+
 
 public class HeadQuarter : MonoBehaviour {
 
@@ -134,8 +136,10 @@ public class HeadQuarter : MonoBehaviour {
         
             Resource = Resource + Time.deltaTime;
 
+
         if (Health == 0)
             Finish_Game();
+
 
     }
 
