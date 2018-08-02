@@ -89,7 +89,7 @@ public class HeadQuarter : MonoBehaviour {
 
     public void Finish_Game()
     {
-
+        GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
     }
 
     public int[] Get_Unit_Count()
@@ -132,8 +132,8 @@ public class HeadQuarter : MonoBehaviour {
         
             Resource = Resource + Time.deltaTime;
 
-       if (Health == 0)
-            GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
+        if (Health == 0)
+            Finish_Game();
 
     }
 
