@@ -90,7 +90,7 @@ public class HeadQuarter : MonoBehaviour {
 
     public void Finish_Game() //게임을 끝내고 결과화면이 나옵니다.
     {
-        SceneManager.LoadScene("Result");
+        SceneManager.LoadSceneAsync("Result", LoadSceneMode.Single);
         //GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
     }
 

@@ -17,11 +17,22 @@ public class GameStart : MonoBehaviour {
 
     public void Game_Start()
     {
-        SceneManager.LoadScene("Main");
+        //SceneManager.UnloadSceneAsync("Game_Start_Scene");
+        SceneManager.LoadSceneAsync("Main", LoadSceneMode.Single);
+    }
+
+    public void Game_ReStart()
+    {
+        //SceneManager.UnloadSceneAsync("Main");
+        Debug.Log("Hello");
+        SceneManager.LoadSceneAsync("Main", LoadSceneMode.Single);
     }
 
     public void GoTo_Menu()
     {
-        SceneManager.LoadScene("Game_Start_Scene");
+        //SceneManager.UnloadSceneAsync("Game_Start_Scene");
+        //SceneManager.UnloadSceneAsync("Main");
+        
+        SceneManager.LoadSceneAsync("Game_Start_Scene", LoadSceneMode.Single);
     }
 }
