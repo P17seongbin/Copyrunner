@@ -192,7 +192,7 @@ MonoBehaviour:
   Is_Fixed: 0
   WalkingFrameNumber: 3
   AttackFrameNumber: 4
-  DeadFrameNumber: 3
+  DeadFrameNumber: 4
   Unit_Type: 68
   Attack_Speed: 0.5
   Unit_FrameRate: 60
