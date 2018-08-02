@@ -55,7 +55,7 @@ public class Unit : TimeManager
         TimeScale = 1f;
         FrameRate = Unit_FrameRate;
 
-        WalkingFrameNumber = 3;
+        WalkingFrameNumber = 2;
         AttackFrameNumber = 3;
         DeadFrameNumber = 3;
 
@@ -113,14 +113,14 @@ public class Unit : TimeManager
                 if (!Is_Attack)
                     break;
                 This_Renderer.sprite = AttackFrame[i];
-                yield return new WaitForSeconds(Attack_Speed);
+                yield return new WaitForSeconds(Attack_Speed/AttackFrameNumber);
             }
             for(int i=0;i<WalkingFrameNumber;i++)
             {
                 if (Is_Attack)
                     break;
                 This_Renderer.sprite = WalkingFrame[i];
-                yield return new WaitForSeconds(Speed/WalkingFrameNumber);
+                yield return new WaitForSeconds(Speed/WalkingFrameNumber/2f);
             }
         }
     }
@@ -171,17 +171,11 @@ public class Unit : TimeManager
         if (Refresh_TimeCheck())
         {
 
-            Is_Moveable = true;
-            Is_Attack = false;
             Check_Dead();
             Get_RGBValue();
             Stat_Update(); //환경에 따른 스탯 변화 업데이트
 
-            if (Enemies.Count != 0)//(공격 가능한 Object가 사정거리 내에 있으면)
-            {
-                Is_Moveable = false;
-                Is_Attack = true;
-            }
+
             Move();
 
             //마지막 공격으로부터 지난 시간이 공격 주기보다 크면 Attack을 1회 호출합니다.
@@ -389,11 +383,25 @@ public class Unit : TimeManager
 
     public void Add_Enemy(Transform Enemy)
     {
+        if(Enemies.Count == 0)
+        {
+            StopCoroutine(Anim);
+            Is_Moveable = false;
+            Is_Attack = true;
+            Anim = StartCoroutine(Animate());
+        }
         if (!Enemies.Contains(Enemy))
             Enemies.Add(Enemy);
     }
     public void Remove_Enemy(Transform Enemy)
     {
+        if(Enemies.Count == 1)
+        {
+            StopCoroutine(Anim);
+            Is_Moveable = true;
+            Is_Attack = false;
+            Anim = StartCoroutine(Animate());
+        }
         if (Enemies.Contains(Enemy))
             Enemies.Remove(Enemy);
     }
