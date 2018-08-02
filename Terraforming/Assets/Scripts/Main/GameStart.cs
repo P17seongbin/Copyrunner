@@ -18,6 +18,10 @@ public class GameStart : MonoBehaviour {
     public void Game_Start()
     {
         SceneManager.LoadScene("Main");
+    }
 
+    public void GoTo_Menu()
+    {
+        SceneManager.LoadScene("Game_Start_Scene");
     }
 }

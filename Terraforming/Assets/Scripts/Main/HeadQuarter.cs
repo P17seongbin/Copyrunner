@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HeadQuarter : MonoBehaviour {
 
@@ -87,9 +88,10 @@ public class HeadQuarter : MonoBehaviour {
         Is_Paused = Is_Pause;
     }
 
-    public void Finish_Game()
+    public void Finish_Game() //게임을 끝내고 결과화면이 나옵니다.
     {
-        GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
+        SceneManager.LoadScene("Result");
+        //GameObject.Find("Game_Result").GetComponent<Information_display>().Result_Display(Team);
     }
 
     public int[] Get_Unit_Count()
