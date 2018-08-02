@@ -37,7 +37,7 @@ public class Unit : TimeManager
     private List<Sprite> AttackFrame;
     private List<Sprite> DeadFrame;
     Coroutine Anim;
-    private int WalkingFrameNumber=3, AttackFrameNumber=3, DeadFrameNumber=3;
+    [SerializeField] private int WalkingFrameNumber=3, AttackFrameNumber=3, DeadFrameNumber=3;
     private float DeadAnimDeltaTime = 0.5f;
     private SpriteRenderer This_Renderer;
 
