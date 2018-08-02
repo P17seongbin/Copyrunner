@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
     public Camera MainCamera;
+    public Image RGBImage;
+    public Text RGBText;
 
-    [SerializeField] private Vector3 Cur_Env;
+    private Vector3 Cur_Env;
     [SerializeField]//private 변수를 Unity Inspector에서 편집할 수 있게 합니다.
     private float Init_R=5f, Init_G=5f, Init_B=5f;
     [SerializeField] private Vector3 Max_Env, Min_Env;//최대 환경변수 및 최소 환경변수를 나타냅니다, Inspector에서 값을 입력받습니다. 
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour {
     {
         P1_CreatureList = new List<GameObject>();
         P2_CreatureList = new List<GameObject>();
-
+        
         Cur_Env = new Vector3(Init_R, Init_G, Init_B);
         Cur_Env = Limit_RGBValue(Cur_Env);
 
@@ -60,6 +63,9 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+        RGBImage.color = new Vector4(Cur_Env[0] / Max_Env[0], Cur_Env[1] / Max_Env[1], Cur_Env[2] / Max_Env[2], 1);
+        RGBText.text = "R: " + Cur_Env[0] + " G: " + Cur_Env[1] + " B: " + Cur_Env[2];
 
         Debug.Log(Cur_Env);
         //Key가 눌렸는지 테스트하는 항목
@@ -100,28 +106,30 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
             {
+                P1_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 1 주문 1 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
+                P1_HQ.GetComponent<SpellManager>().Spell_Load(true, 4);
                 //Player 1 주문 2 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
-                P1_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 1 주문 3 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
             {
+                P2_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 2 주문 1 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
             {
+                P2_HQ.GetComponent<SpellManager>().Spell_Load(true, 4);
                 //Player 2 주문 2 시전
             }
             if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
             {
-                P2_HQ.GetComponent<SpellManager>().Spell_Load(false, 3);
                 //Player 2 주문 3 시전
             }
         }
@@ -135,8 +143,6 @@ public class GameManager : MonoBehaviour {
 
     public void Destroyed(int Team)
     {
-       
-  
         //Team 승리! 
         //모든 Unit의 Timescale을 0으로 변경
         //혹은 Unit 고유의 승리 / 패배 애니메이션을 재생 
