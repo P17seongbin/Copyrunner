@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour {
         BG[1] = GameObject.Find("BackGround_R");
         BG[2] = GameObject.Find("BackGround_B");
         Set_BG();
-
     }
     private void Set_BG()
     {

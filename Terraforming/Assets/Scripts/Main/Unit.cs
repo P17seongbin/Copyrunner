@@ -32,6 +32,15 @@ public class Unit : TimeManager
     private GameManager GM_Script; //GameManager Object에 붙어있는 GamemManager.cs를 나타냅니다.
     private List<Transform> Enemies = new List<Transform>();//히트박스에 들어온 적들을 나타냅니다. 
 
+    //각각 걷는 / 공격하는 / 죽는 애니메이션입니다
+    private List<Sprite> WalkingFrame;
+    private List<Sprite> AttackFrame;
+    private List<Sprite> DeadFrame;
+    Coroutine Anim;
+    private int WalkingFrameNumber=3, AttackFrameNumber=3, DeadFrameNumber=3;
+    private float DeadAnimDeltaTime = 0.5f;
+    private SpriteRenderer This_Renderer;
+
     [SerializeField] private char Unit_Type;
     [SerializeField] private float Attack_Speed; //각 Unit이 공격을 하는데 걸리는 시간입니다. 
     [SerializeField] private float Unit_FrameRate;//TimeManager의 FrameRate를 Inspector에서 편집할 수 있게 만들어줍니다
@@ -41,8 +50,14 @@ public class Unit : TimeManager
 
     void Start()
     {
+        This_Renderer = gameObject.GetComponent<SpriteRenderer>();
+        Image_Load();
         TimeScale = 1f;
         FrameRate = Unit_FrameRate;
+
+        WalkingFrameNumber = 3;
+        AttackFrameNumber = 3;
+        DeadFrameNumber = 3;
 
         Attack_Speed = 0.5f;
         DeltaTime = 0f;
@@ -59,12 +74,76 @@ public class Unit : TimeManager
 
         Stat_Update(); //시작할 때 딱 한 번 스텟을 업데이트 시켜준다.
 
+        Anim = StartCoroutine(Animate());
       //  StartCoroutine("Attack_Time"); //공격
     }
 
+    void Image_Load()
+    {
+        WalkingFrame = new List<Sprite>();
+        DeadFrame = new List<Sprite>();
+        AttackFrame = new List<Sprite>();
+   //     try
+   //      {
+            for (int i = 1; i <= WalkingFrameNumber; i++)
+            {
+                WalkingFrame.Add(Resources.Load<Sprite>("Unit_Image/Unit_" + Unit_Type + "/Unit_" + Unit_Type + "_walking_" + i.ToString()));
+            }
+            for (int i = 1; i <= DeadFrameNumber; i++)
+            {
+                DeadFrame.Add(Resources.Load<Sprite>("Unit_Image/Unit_" + Unit_Type + "/Unit_" + Unit_Type + "_die_" + i.ToString()));
+            }
+            for (int i = 1; i <= AttackFrameNumber; i++)
+            {
+                AttackFrame.Add(Resources.Load<Sprite>("Unit_Image/Unit_" + Unit_Type + "/Unit_" + Unit_Type + "_attack_" + i.ToString()));
+            }
+       // }
+     //   catch
+      //  {
+      //      Debug.Log("Sprite for Unit " + Unit_Type + "doesn't exist!");
+      //  }
+    }
+
+    IEnumerator Animate()//애니메이션 스크립트
+    {
+        while(!Is_Dead)
+        {
+            for(int i=0;i<AttackFrameNumber;i++)
+            {
+                if (!Is_Attack)
+                    break;
+                This_Renderer.sprite = AttackFrame[i];
+                yield return new WaitForSeconds(Attack_Speed);
+            }
+            for(int i=0;i<WalkingFrameNumber;i++)
+            {
+                if (Is_Attack)
+                    break;
+                This_Renderer.sprite = WalkingFrame[i];
+                yield return new WaitForSeconds(Speed/WalkingFrameNumber);
+            }
+        }
+    }
+    IEnumerator Dead_Anim()//사망 애니메이션 및 비활성화 처리
+    {
+        while (Is_Dead)
+        {
+            for (int i = 0; i < DeadFrameNumber; i++)
+            {
+                This_Renderer.sprite = DeadFrame[i];
+                yield return new WaitForSeconds(DeadAnimDeltaTime);
+            }
+            break;
+        }
+
+        gameObject.SetActive(false);
+    }
     // Update is called once per frame
     void Update()
     {
+        if (Is_Dead)//죽은것이 판정되면 AI를 정지한다
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Is_Paused)
@@ -103,7 +182,6 @@ public class Unit : TimeManager
                 Is_Moveable = false;
                 Is_Attack = true;
             }
-            Debug.Log(Enemies.Count);
             Move();
 
             //마지막 공격으로부터 지난 시간이 공격 주기보다 크면 Attack을 1회 호출합니다.
@@ -293,7 +371,9 @@ public class Unit : TimeManager
             Is_Attack = false;
             Is_Dead = true;
             HQ.GetComponent<HeadQuarter>().Unit_Dead(ID);
-            gameObject.SetActive(false);
+            StopCoroutine(Anim);
+
+            StartCoroutine(Dead_Anim());
         }
     }
     private void Get_RGBValue()
