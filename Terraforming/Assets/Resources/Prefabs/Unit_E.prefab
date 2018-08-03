@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818fd417299e24548be11849a6e23f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Max_Health: 30
-  Health: 20
+  Max_Health: 15
+  Health: 15
   Cost: 2
   Ori_Cost: 2
   Fixed_Cost: 4
@@ -167,7 +167,7 @@ MonoBehaviour:
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 4
   Effect_Env: 2
-  Affect_Env_Period: 1
+  Affect_Env_Period: 3
   Max_Effect_Env: 6
   Min_Effect_Env: 3
   Delta_Env: {x: 0, y: -1, z: 0}
@@ -183,6 +183,8 @@ MonoBehaviour:
   DeadFrameNumber: 4
   Unit_Type: 69
   Attack_Speed: 1
+  Ori_Attack_Speed: 1
+  Fixed_Attack_Speed: 0.5
   Unit_FrameRate: 60
   Cur_Env: {x: 0, y: 0, z: 0}
   ATK: 5
