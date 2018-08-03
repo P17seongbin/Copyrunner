@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 0 Win!
+  m_Text: Player 1 Win!
 --- !u!222 &81294790
 CanvasRenderer:
   m_ObjectHideFlags: 0
