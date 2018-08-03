@@ -42,7 +42,8 @@ public class Unit : TimeManager
     private SpriteRenderer This_Renderer;
 
     [SerializeField] private char Unit_Type;
-    [SerializeField] private float Attack_Speed; //각 Unit이 공격을 하는데 걸리는 시간입니다. 
+    [SerializeField] private float Attack_Speed; //각 Unit이 공격을 하는데 걸리는 시간입니다.
+    [SerializeField] private float Ori_Attack_Speed, Fixed_Attack_Speed;
     [SerializeField] private float Unit_FrameRate;//TimeManager의 FrameRate를 Inspector에서 편집할 수 있게 만들어줍니다
     [SerializeField] private Vector3 Cur_Env; //매 Frame마다 GameManager에게 현재 환경 변수를 받아오는 것을 저장할 임시 변수입니다.
     [SerializeField] private float ATK, DEF; //최종 공격력 & 방어력
@@ -196,6 +197,7 @@ public class Unit : TimeManager
             //마지막 공격으로부터 지난 시간이 공격 주기보다 크면 Attack을 1회 호출합니다.
             if (Delta_AttackTime >= Attack_Speed)
             {
+
                 Delta_AttackTime = 0f;
                 Attack();
                 //특정 상황에서 공격 주기가 달라지는 Unit D의 공격 패턴을 구현하기 위해 특수한 조건을 삽입했습니다.
@@ -203,7 +205,7 @@ public class Unit : TimeManager
                 {
                     if (6 <= Cur_Env[Effect_Env] && Cur_Env[Effect_Env] <= 8)
                     {
-                        Invoke("Attack", 0.15f);
+                        //Invoke("Attack", 0.15f);(이중공격 나중에 추가)
                     }
                 }
 
@@ -222,6 +224,7 @@ public class Unit : TimeManager
             ATK = Fixed_ATK;
             DEF = Fixed_DEF;
             Speed = Fixed_Speed;
+            Attack_Speed = Fixed_Attack_Speed;
             Attack_Range.size = new Vector2(Fixed_Attack_Range, 2.0f); //각 스탯들을 전부 fixed 값으로 교체
             Attack_Range.offset = new Vector2( (Attack_Range.size.x / 2f) + 1.2f,0); //사거리 히트박스를 유닛의 위치에 맞게 재배치
         }
@@ -233,6 +236,7 @@ public class Unit : TimeManager
             ATK = Ori_ATK;
             DEF = Ori_DEF;
             Speed = Ori_Speed;
+            Attack_Speed = Ori_Attack_Speed;
             Attack_Range.size = new Vector2(Ori_Attack_Range, 2.0f);
             Attack_Range.offset = new Vector2(0, 0); //각 스탯들을 전부 origin 값으로 교체
             Attack_Range.offset = new Vector2((Attack_Range.size.x / 2f) + 1.2f, 0);//사거리 히트박스를 유닛의 위치에 맞게 재배치

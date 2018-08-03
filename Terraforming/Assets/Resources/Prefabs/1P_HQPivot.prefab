@@ -141,7 +141,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Team: 1
   MAX_UNIT_VARIATION: 3
-  Health: 100
+  WinText: {fileID: 0}
+  Health: 1000
   Resource: 0
 --- !u!114 &114600574359200996
 MonoBehaviour:

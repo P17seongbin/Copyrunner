@@ -53,15 +53,15 @@ public class GameManager : MonoBehaviour {
 
         //배경화면을 설정한다.
         BG = new GameObject[3];
-        BG[0] = GameObject.Find("BackGround_G");
-        BG[1] = GameObject.Find("BackGround_R");
+        BG[1] = GameObject.Find("BackGround_G");
+        BG[0] = GameObject.Find("BackGround_R");
         BG[2] = GameObject.Find("BackGround_B");
         Set_BG();
     }
     private void Set_BG()
     {
         int i = 0;
-        char[] type = { 'G','R','B' };
+        char[] type = { 'R','G','B' };
         //순서대로 RGB
         foreach(char t in type)
         {

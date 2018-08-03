@@ -110,7 +110,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.24, y: 5.3}
+    oldSize: {x: 4.826667, y: 3.5266666}
     newSize: {x: 7.24, y: 5.3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -166,11 +166,11 @@ MonoBehaviour:
   Summon_Time: 3
   Ori_Summon_Time: 3
   Fixed_Summon_Time: 4
-  Effect_Env: 0
+  Effect_Env: 2
   Affect_Env_Period: 1
   Max_Effect_Env: 6
-  Min_Effect_Env: 0
-  Delta_Env: {x: 0, y: 0, z: -1}
+  Min_Effect_Env: 3
+  Delta_Env: {x: 0, y: -1, z: 0}
   Hitbox: {fileID: 61814085640388996}
   Attack_Range: {fileID: 61851258545270120}
   Ori_Attack_Range: 2
