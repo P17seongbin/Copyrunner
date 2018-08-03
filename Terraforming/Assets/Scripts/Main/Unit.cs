@@ -137,6 +137,7 @@ public class Unit : TimeManager
     }
     IEnumerator Dead_Anim()//사망 애니메이션 및 비활성화 처리
     {
+        CancelInvoke();
         while (Is_Dead)
         {
             for (int i = 0; i < DeadFrameNumber; i++)
