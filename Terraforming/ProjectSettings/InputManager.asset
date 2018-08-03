@@ -249,9 +249,9 @@ InputManager:
     m_Name: P2_Spell
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: j
-    altNegativeButton: l
+    negativeButton: j
+    positiveButton: l
+    altNegativeButton: 
     altPositiveButton: joystick button 1
     gravity: 1000
     dead: 0.001

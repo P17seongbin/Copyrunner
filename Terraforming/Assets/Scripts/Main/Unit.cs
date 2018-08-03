@@ -73,7 +73,7 @@ public class Unit : TimeManager
         InvokeRepeating("Change_Env", Affect_Env_Period, Affect_Env_Period); //일정 주기마다 환경값을 바꾼다
 
         Stat_Update(); //시작할 때 딱 한 번 스텟을 업데이트 시켜준다.
-
+        This_Renderer.sprite = WalkingFrame[0];
         Anim = StartCoroutine(Animate());
       //  StartCoroutine("Attack_Time"); //공격
     }
@@ -112,6 +112,11 @@ public class Unit : TimeManager
             {
                 if (!Is_Attack)
                     break;
+                if (Is_Paused)
+                {
+                    i--;
+                    yield return new WaitForSeconds(Speed / WalkingFrameNumber / 2f);
+                }
                 This_Renderer.sprite = AttackFrame[i];
                 yield return new WaitForSeconds(Attack_Speed/AttackFrameNumber);
             }
@@ -119,6 +124,11 @@ public class Unit : TimeManager
             {
                 if (Is_Attack)
                     break;
+                if (Speed <= 0 || Is_Paused)
+                {
+                    i--;
+                    yield return new WaitForSeconds(Speed / WalkingFrameNumber / 2f);
+                }
                 This_Renderer.sprite = WalkingFrame[i];
                 yield return new WaitForSeconds(Speed/WalkingFrameNumber/2f);
             }
@@ -130,6 +140,11 @@ public class Unit : TimeManager
         {
             for (int i = 0; i < DeadFrameNumber; i++)
             {
+                if(Is_Paused)
+                {
+                    i--;
+                    yield return new WaitForSeconds(DeadAnimDeltaTime);
+                }
                 This_Renderer.sprite = DeadFrame[i];
                 yield return new WaitForSeconds(DeadAnimDeltaTime);
             }
@@ -273,7 +288,13 @@ public class Unit : TimeManager
     private void Attack()
     {
         if (Enemies.Count == 0)//때릴놈이 없네
+        {
+            StopCoroutine(Anim);
+            Is_Moveable = true;
+            Is_Attack = false;
+            Anim = StartCoroutine(Animate());
             return;
+        }
 
         //예시로 짠 코드는 가장 가까운 적의 Hit(피격) 함수를 호출하는 것이며, 여기 코드는 기획서에 맞게 수정하셔야 합니다.
 
@@ -384,27 +405,33 @@ public class Unit : TimeManager
 
     public void Add_Enemy(Transform Enemy)
     {
-        if(Enemies.Count == 0)
-        {
-            StopCoroutine(Anim);
-            Is_Moveable = false;
-            Is_Attack = true;
-            Anim = StartCoroutine(Animate());
-        }
+
         if (!Enemies.Contains(Enemy))
+        {
+            if (Enemies.Count == 0)
+            {
+                StopCoroutine(Anim);
+                Is_Moveable = false;
+                Is_Attack = true;
+                Anim = StartCoroutine(Animate());
+            }
             Enemies.Add(Enemy);
+        }
     }
     public void Remove_Enemy(Transform Enemy)
     {
-        if(Enemies.Count == 1)
-        {
-            StopCoroutine(Anim);
-            Is_Moveable = true;
-            Is_Attack = false;
-            Anim = StartCoroutine(Animate());
-        }
+
         if (Enemies.Contains(Enemy))
+        {
+            if (Enemies.Count == 1)
+            {
+                StopCoroutine(Anim);
+                Is_Moveable = true;
+                Is_Attack = false;
+                Anim = StartCoroutine(Animate());
+            }
             Enemies.Remove(Enemy);
+        }
     }
 
     public char Get_Type()
