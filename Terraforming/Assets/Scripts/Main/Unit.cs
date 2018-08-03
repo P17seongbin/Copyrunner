@@ -38,7 +38,7 @@ public class Unit : TimeManager
     private List<Sprite> DeadFrame;
     Coroutine Anim;
     [SerializeField] private int WalkingFrameNumber=3, AttackFrameNumber=3, DeadFrameNumber=3;
-    private float DeadAnimDeltaTime = 0.5f;
+    private float DeadAnimDeltaTime = 1f;
     private SpriteRenderer This_Renderer;
 
     [SerializeField] private char Unit_Type;
@@ -143,10 +143,10 @@ public class Unit : TimeManager
                 if(Is_Paused)
                 {
                     i--;
-                    yield return new WaitForSeconds(DeadAnimDeltaTime);
+                    yield return new WaitForSeconds(DeadAnimDeltaTime/DeadFrameNumber);
                 }
                 This_Renderer.sprite = DeadFrame[i];
-                yield return new WaitForSeconds(DeadAnimDeltaTime);
+                yield return new WaitForSeconds(DeadAnimDeltaTime/DeadFrameNumber);
             }
             break;
         }
