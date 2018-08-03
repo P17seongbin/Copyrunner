@@ -195,6 +195,8 @@ MonoBehaviour:
   DeadFrameNumber: 4
   Unit_Type: 68
   Attack_Speed: 0.5
+  Ori_Attack_Speed: 0.5
+  Fixed_Attack_Speed: 0.5
   Unit_FrameRate: 60
   Cur_Env: {x: 0, y: 0, z: 0}
   ATK: 3
